@@ -31,7 +31,7 @@ class Version20170429145438 extends AbstractMigration implements ContainerAwareI
         $newAdmin = new User();
         $newAdmin->setUsername('admin');
         $newAdmin->setEmail('admin@userx.com');
-        $newAdmin->setPassword('alongpass');
+        $newAdmin->setPasswordRaw('alongpass');
         $newAdmin->setIsBanned(false);
         $newAdmin->setIsActive(true);
         $newAdmin->setCash(0);
@@ -41,12 +41,12 @@ class Version20170429145438 extends AbstractMigration implements ContainerAwareI
         $newMod = new User();
         $newMod->setUsername('moderator');
         $newMod->setEmail('moderator@userx.com');
-        $newMod->setPassword('modulus');
+        $newMod->setPasswordRaw('modulus');
         $newMod->setIsBanned(false);
         $newMod->setIsActive(true);
         $newMod->setCash(0);
         $newMod->setRole("ROLE_EDITOR");
-        $newMod->setPassword($crypto->encodePassword($newAdmin, $newAdmin->getPasswordRaw()));
+        $newMod->setPassword($crypto->encodePassword($newMod, $newMod->getPasswordRaw()));
 
         $manager = $doctrine->getManager();
         $manager->persist($newAdmin);
@@ -66,10 +66,10 @@ class Version20170429145438 extends AbstractMigration implements ContainerAwareI
         $doctrine = $this->container->get('doctrine');
         $manager = $doctrine->getManager();
 
-        $userRepo = $manager->getRepository(UserRepository::class);
-        $userRepo->removeByUsername("admin");
-        $userRepo = $manager->getRepository(UserRepository::class);
-        $userRepo->removeByUsername("moderator");
+//        $userRepo = $manager->getRepository(UserRepository::class);
+//        $userRepo->removeByUsername("admin");
+//        $userRepo = $manager->getRepository(UserRepository::class);
+//        $userRepo->removeByUsername("moderator");
     }
 
     /**
