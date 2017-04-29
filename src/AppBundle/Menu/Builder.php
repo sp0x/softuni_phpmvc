@@ -51,6 +51,7 @@ class Builder implements ContainerAwareInterface
             $user = $this->getUser();
             $menu->addChild('My Cart' , array('route' => 'mycart'));
             $menu->addChild($user->getUsername() , array('route' => 'user_current'));
+            $menu[$user->getUsername()]->addChild('Logout', array('route' => 'logout'));
         }else{
             $currentRoute = $this->container->get('app.requesthelper')->getCurrentRoute();
             if($currentRoute=="user_login"){

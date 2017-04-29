@@ -11,7 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SecurityController extends Controller
 {
-
+//
+//    /**
+//     * @Route("/logout", name="user_logout")
+//     */
+//    public function logoutAction(){
+//        $this->redirectToRoute('homepage');
+//    }
     /**
      * @Route("/login", name="user_login")
      * @Template()

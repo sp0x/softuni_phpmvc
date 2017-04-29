@@ -3,6 +3,9 @@ app_category:
     type:     annotation
     prefix:    /category
 
+logout:
+    path: /logout
+
 app_product:
     resource: "@AppBundle/Controller/ProductController.php"
     type:     annotation
