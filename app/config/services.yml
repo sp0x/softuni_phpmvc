@@ -16,6 +16,11 @@ services:
     arguments:
       - AppBundle\Entity\Category
 
+  repo.promotions:
+    class: Doctrine\ORM\EntityRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+      - AppBundle\Entity\Promotion
 
   app.slugger:
     class: AppBundle\Utils\Slugger
@@ -27,7 +32,7 @@ services:
     arguments: ['@request_stack']
   app.productsmanager:
     class: AppBundle\Services\ProductsManager
-    arguments: [ "@repo.products" ]
+    arguments: [ "@repo.products", "@repo.promotions", "@security.token_storage"]
 
     #service_name:
     #    class: AppBundle\Directory\ClassName

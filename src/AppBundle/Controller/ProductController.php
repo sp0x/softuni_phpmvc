@@ -2,10 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Category;
 use AppBundle\Entity\Product;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -33,6 +37,10 @@ class ProductController extends Controller
         ));
     }
 
+
+    public function addCommentAction(Request $request){
+
+    }
     /**
      * Creates a new product entity.
      *
@@ -47,11 +55,27 @@ class ProductController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($product);
-            $em->flush();
+            $product->setCreatedOn(new DateTime());
+            /** @var UploadedFile $file */
+            $file = $product->getImageForm();
+            if(!$file){
+                $form->get('image_form')->addError(new FormError('Image is required'));
+            }else{
+                $filename = md5($product->getName() . '' . $product->getCreatedOn()->format('Y-m-d H:i:s'));
+                $file->move([
+                    $this->get('kernel')->getRootDir() . '/../web/images/product/',
+                    $filename
+                ]);
+                $product->setImage($filename);
 
-            return $this->redirectToRoute('product_show', array('id' => $product->getId()));
+                $this->get('session')->getFlashBag()->add('success', 'Product was created successfully!');
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($product);
+                $em->flush();
+
+                return $this->redirectToRoute('product_show', array('id' => $product->getId()));
+            }
         }
 
         return $this->render('product/new.html.twig', array(
@@ -65,6 +89,8 @@ class ProductController extends Controller
      *
      * @Route("/{id}", name="product_show")
      * @Method("GET")
+     * @param Product $product
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction(Product $product)
     {
@@ -74,6 +100,18 @@ class ProductController extends Controller
             'product' => $product,
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+    /**
+     * @param Product $product
+     * @Route("/promote", name="product_promote")
+     * @Security("has_role('ROLE_EDITOR')")
+     * @Method("GET")
+     */
+    public function productPromoteAction(Product $product){
+        $this->redirectToRoute("promotion_new", [
+            'product_id' => $product->getId()
+        ]);
     }
 
     /**

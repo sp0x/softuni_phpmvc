@@ -23,7 +23,7 @@ class ProductComment
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $author;
@@ -44,7 +44,7 @@ class ProductComment
 
     /**
      * @var Product
-     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="comments")
      * @ORM\JoinColumn(name="product_id" , referencedColumnName="id")
      */
     private $product;

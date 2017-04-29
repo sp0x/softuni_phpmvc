@@ -46,7 +46,7 @@ class Sale
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="sales")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

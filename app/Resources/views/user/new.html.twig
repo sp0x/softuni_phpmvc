@@ -1,7 +1,7 @@
 {% extends ':shared:layout.html.twig' %}
-{% block title %}xCart: New product{% endblock %}
+
 {% block body %}
-    <h1>Product creation</h1>
+    <h1>User creation</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
@@ -10,7 +10,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('product_index') }}">Back to the list</a>
+            <a href="{{ path('user_list') }}">Back to the list</a>
         </li>
     </ul>
 {% endblock %}

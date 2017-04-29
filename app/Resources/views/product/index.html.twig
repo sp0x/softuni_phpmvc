@@ -2,10 +2,10 @@
 
 {% block body %}
     <h1>Products list</h1>
-
-    <table>
-        <thead>
-            <tr>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr class="row">
                 <th>Id</th>
                 <th>Name</th>
                 <th>Cost</th>
@@ -14,30 +14,32 @@
                 <th>Createdon</th>
                 <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td><a href="{{ path('product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.cost }}</td>
-                <td>{{ product.order }}</td>
-                <td>{% if product.isAvailable %}Yes{% else %}No{% endif %}</td>
-                <td>{{ product.createdOn }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('product_show', { 'id': product.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('product_edit', { 'id': product.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr class="row">
+                    <td><a href="{{ path('product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.cost }}</td>
+                    <td>{{ product.order }}</td>
+                    <td>{% if product.isAvailable %}Yes{% else %}No{% endif %}</td>
+                    <td>{{ product.createdOn }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('product_show', { 'id': product.id }) }}">show</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('product_edit', { 'id': product.id }) }}">edit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
 
     <ul>
         <li>

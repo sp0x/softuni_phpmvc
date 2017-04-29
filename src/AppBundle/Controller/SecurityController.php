@@ -61,10 +61,14 @@ class SecurityController extends Controller
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             //register the user
+            //start off with 1000 in cash, so that you can purchase things
+            $initialCash = 1000.0;
+
             /** @var User $user */
             $user = $form->getData();
             $crypto = $this->get('security.password_encoder');
             $user->setRole("ROLE_USER");
+            $user->setCash($initialCash);
             $user->setPassword($crypto->encodePassword($user, $user->getPasswordRaw()));
 
             $manager = $this->getDoctrine()->getManager();

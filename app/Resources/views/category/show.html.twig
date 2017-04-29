@@ -1,5 +1,5 @@
 {% extends ':shared:layout.html.twig' %}
-
+{% block title %}xCart: Category #{{ category.id }}{% endblock %}
 {% block body %}
     <h1>Category</h1>
 
@@ -18,7 +18,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('category_index') }}">Back to the list</a>
+            <a href="{{ path('category_list') }}">Back to the list</a>
         </li>
         <li>
             <a href="{{ path('category_edit', { 'id': category.id }) }}">Edit</a>

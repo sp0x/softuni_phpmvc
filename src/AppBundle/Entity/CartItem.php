@@ -39,7 +39,7 @@ class CartItem
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="cartItems")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

@@ -78,6 +78,32 @@ class UserController extends Controller
         ));
     }
 
+    /**
+     * Displays a form to edit an existing category entity.
+     *
+     * @Route("/{id}/edit", name="user_edit")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Method({"GET", "POST"})
+     */
+    public function editAction(Request $request, User $user)
+    {
+        $deleteForm = $this->createDeleteForm($user);
+        $editForm = $this->createForm('AppBundle\Form\UserType', $user);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('user_edit', array('id' => $user->getId()));
+        }
+
+        return $this->render('user/edit.html.twig', array(
+            'user' => $user,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
 
     /**
      * Deletes a product entity.

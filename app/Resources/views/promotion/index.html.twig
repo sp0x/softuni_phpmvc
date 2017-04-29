@@ -2,10 +2,10 @@
 
 {% block body %}
     <h1>Promotions list</h1>
-
-    <table>
+<div class="table-responsive">
+    <table class="table">
         <thead>
-            <tr>
+            <tr class="row">
                 <th>Id</th>
                 <th>Productid</th>
                 <th>Isgeneral</th>
@@ -19,7 +19,7 @@
         </thead>
         <tbody>
         {% for promotion in promotions %}
-            <tr>
+            <tr class="row">
                 <td><a href="{{ path('promotion_show', { 'id': promotion.id }) }}">{{ promotion.id }}</a></td>
                 <td>{{ promotion.productId }}</td>
                 <td>{% if promotion.isGeneral %}Yes{% else %}No{% endif %}</td>
@@ -42,7 +42,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+</div>
     <ul>
         <li>
             <a href="{{ path('promotion_new') }}">Create a new promotion</a>

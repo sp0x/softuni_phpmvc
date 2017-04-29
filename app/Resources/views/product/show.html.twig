@@ -1,48 +1,38 @@
 {% extends ':shared:layout.html.twig' %}
 
 {% block body %}
-    <h1>Product</h1>
-
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ product.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ product.name }}</td>
-            </tr>
-            <tr>
-                <th>Cost</th>
-                <td>{{ product.cost }}</td>
-            </tr>
-            <tr>
-                <th>Order</th>
-                <td>{{ product.order }}</td>
-            </tr>
-            <tr>
-                <th>Isavailable</th>
-                <td>{% if product.isAvailable %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Createdon</th>
-                <td>{{ product.createdOn }}</td>
-            </tr>
-        </tbody>
-    </table>
-
+    <h1>{{ product.name }}</h1>
     <ul>
         <li>
-            <a href="{{ path('product_index') }}">Back to the list</a>
+            <div class="row">
+               <p class="col-md-9">Cost: {{ product.cost }}</p>
+               <p class="col-md-4">Posted: {{ product.createdOn }}</p>
+            </div>
         </li>
         <li>
-            <a href="{{ path('product_edit', { 'id': product.id }) }}">Edit</a>
+            {{ product.description }}
         </li>
         <li>
-            {{ form_start(delete_form) }}
+            <img src="/images/product/{{ product.image }}" style="width: 250px;">
+        </li>
+
+    </ul>
+    <ul>
+        <li>
+            <a href="{{ path('product_index') }}">Back</a>
+        </li>
+        {% if is_granted('ROLE_EDITOR') %}
+            <li>
+                <a href="{{ path('product_promote', { 'id': product.id }) }}">Promote</a>
+            </li>
+            <li>
+                <a href="{{ path('product_edit', { 'id': product.id }) }}">Edit</a>
+            </li>
+            <li>
+                {{ form_start(delete_form) }}
                 <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
+                {{ form_end(delete_form) }}
+            </li>
+        {% endif %}
     </ul>
 {% endblock %}

@@ -58,6 +58,25 @@ class User implements UserInterface
     private $password_raw;
 
     /**
+     * @var CartItem[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CartItem", mappedBy="user")
+     */
+    private $cartItems;
+
+
+    /**
+     * @var ProductComment[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductComment", mappedBy="author")
+     */
+    private $comments;
+
+    /**
+     * @var Sale[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Sale", mappedBy="user")
+     */
+    private $sales;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
@@ -338,5 +357,107 @@ class User implements UserInterface
     public function getIsBanned()
     {
         return $this->isBanned;
+    }
+
+    /**
+     * Add cartItem
+     *
+     * @param \AppBundle\Entity\CartItem $cartItem
+     *
+     * @return User
+     */
+    public function addCartItem(\AppBundle\Entity\CartItem $cartItem)
+    {
+        $this->cartItems[] = $cartItem;
+
+        return $this;
+    }
+
+    /**
+     * Remove cartItem
+     *
+     * @param \AppBundle\Entity\CartItem $cartItem
+     */
+    public function removeCartItem(\AppBundle\Entity\CartItem $cartItem)
+    {
+        $this->cartItems->removeElement($cartItem);
+    }
+
+    /**
+     * Get cartItems
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCartItems()
+    {
+        return $this->cartItems;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\ProductComment $comment
+     *
+     * @return User
+     */
+    public function addComment(\AppBundle\Entity\ProductComment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\ProductComment $comment
+     */
+    public function removeComment(\AppBundle\Entity\ProductComment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Add sale
+     *
+     * @param \AppBundle\Entity\Sale $sale
+     *
+     * @return User
+     */
+    public function addSale(\AppBundle\Entity\Sale $sale)
+    {
+        $this->sales[] = $sale;
+
+        return $this;
+    }
+
+    /**
+     * Remove sale
+     *
+     * @param \AppBundle\Entity\Sale $sale
+     */
+    public function removeSale(\AppBundle\Entity\Sale $sale)
+    {
+        $this->sales->removeElement($sale);
+    }
+
+    /**
+     * Get sales
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSales()
+    {
+        return $this->sales;
     }
 }

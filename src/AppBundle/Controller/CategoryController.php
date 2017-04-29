@@ -121,7 +121,7 @@ class CategoryController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('category_index');
+        return $this->redirectToRoute('category_list');
     }
 
     /**

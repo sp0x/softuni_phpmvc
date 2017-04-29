@@ -45,6 +45,8 @@ class PromotionController extends Controller
         $promotion = new Promotion();
         $form = $this->createForm('AppBundle\Form\PromotionType', $promotion);
         $form->handleRequest($request);
+        $productId = $request->get('product_id');
+        dump($productId);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();

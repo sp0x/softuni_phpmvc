@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Entity\Category;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product
@@ -26,6 +27,8 @@ class Product
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(max="255")
      */
     private $name;
 
@@ -65,16 +68,47 @@ class Product
 
     /**
      * @var
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
 
-//    /**
-//     * @var
-//     * @ORM\Column(name="category_id",  type="integer")
-//     */
-//    private $categoryId;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
+     * @Assert\Image(mimeTypes={"image/png", "image/jpeg"}, maxSize="5M")
+     */
+    private $image_form;
+
+    /**
+     * @var string
+     * @ORM\Column(name="description", type="text")
+     * @Assert\NotBlank()
+     */
+    private $description;
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+
 
     /**
      * Get id
@@ -264,4 +298,46 @@ class Product
     {
         return $this->comments;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getImageForm()
+    {
+        return $this->image_form;
+    }
+
+    /**
+     * @param mixed $image_form
+     */
+    public function setImageForm($image_form)
+    {
+        $this->image_form = $image_form;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Project
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
 }
+

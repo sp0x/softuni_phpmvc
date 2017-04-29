@@ -1,5 +1,5 @@
 {% extends ':shared:layout.html.twig' %}
-
+{% block title %}xCart: User {{ user.username }}{% endblock %}
 {% block body %}
     <h1>User</h1>
     <table>
@@ -41,7 +41,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('user_index') }}">Back to the list</a>
+            <a href="{{ path('user_list') }}">Back to the list</a>
         </li>
     </ul>
 {% endblock %}
