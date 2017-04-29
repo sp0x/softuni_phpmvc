@@ -10,11 +10,16 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
+        $productsManager = $this->get('app.productsmanager');
+        $products = $productsManager->getAvailableInAllCategories();
+        return $this->render('@App/Default/index.html.twig', [
+            'products' => $products,
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
 
@@ -28,6 +33,7 @@ class DefaultController extends Controller
          *  - (purchase_id, quantity, product, user, created_on)
          *
          * controllers:
+         *
          * cart:
          *  - checkout
          *

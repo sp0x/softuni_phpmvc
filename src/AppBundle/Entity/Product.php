@@ -58,6 +58,12 @@ class Product
     private $createdOn;
 
     /**
+     * @var ProductComment[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductComment", mappedBy="product")
+     */
+    private $comments;
+
+    /**
      * @var
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
@@ -216,5 +222,46 @@ class Product
     public function getCategory()
     {
         return $this->category;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\ProductComment $comment
+     *
+     * @return Product
+     */
+    public function addComment(\AppBundle\Entity\ProductComment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\ProductComment $comment
+     */
+    public function removeComment(\AppBundle\Entity\ProductComment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

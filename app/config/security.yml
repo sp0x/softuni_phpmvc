@@ -28,6 +28,10 @@ security:
               login_path: user_login
               check_path: user_login
 
+    role_hierarchy:
+      ROLE_ADMIN:   ROLE_EDITOR
+      ROLE_EDITOR:  ROLE_USER
+
     access_control:
       - path: ^/register
         roles: IS_AUTHENTICATED_ANONYMOUSLY
@@ -37,6 +41,13 @@ security:
 
       - path: ^/
         roles: ROLE_USER
+
+      - path: ^/admin
+        roles: ROLE_ADMIN
+
+      - path: ^/moderate/
+        roles: ROLE_EDITOR
+
         #allow_if: "service('app.visitorvalidator').isHostAllowed(request.getClientIp()) ? true : ( service('session').getFlashBag().add('warning', 'You have been banned.')!=null )"
 
       #request.getClientIp() not in @=service('access_manager').getBannedIPs() ) ?

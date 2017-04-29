@@ -1,20 +1,30 @@
-{% extends '::base.html.twig' %}
+{% extends 'AppBundle::layout.html.twig' %}
 
-{% block body %}
+{% block title %}
+    Login
+{% endblock %}
+{% block content %}
+    <div>
+        <div id="" class="col-md-9">
+            In order to interact with the cart you'll need to login or register first
+        </div>
+        <form action="{{ path('user_login') }}" method="post" class="col-md-3">
+            {{ bootstrap_set_style('horizontal') }}
+            {% if error %}
+                <div style="margin-top: 15px">
+                    {% include 'BraincraftedBootstrapBundle::flash.html.twig' with { 'close' : true } %}
+                </div>
+            {% endif %}
+            <label for="username">Username: </label>
+            <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}">
 
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-
-    <form action="{{ path('user_login') }}" method="post">
-        <label for="username">Username: </label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}">
-
-        <label for="username">Password: </label>
-        <input type="password" id="password" name="_password">
-
-        <button type="submit">Login</button>
-    </form>
+            <label for="username">Password: </label>
+            <input type="password" id="password" class="form-control" name="_password">
+            <div style="margin-top: 20px">
+                <button class="btn btn-primary" type="submit">Login</button>
+                <button class="btn btn-default" type="button" onclick="window.location='{{ path('user_register') }}'">Register</button>
+            </div>
+        </form>
+    </div>
 
 {% endblock %}

@@ -27,6 +27,12 @@ class SecurityController extends Controller
         $error = $auth_utils->getLastAuthenticationError();
         $last_user = $auth_utils->getLastUsername();
 
+
+        //error.messageKey|trans(error.messageData, 'security')
+        if($error){
+            $flash = $this->get('braincrafted_bootstrap.flash');
+            $flash->error($error->getMessage());
+        }
         return [
             'last_username' => $last_user,
             'error' => $error
@@ -52,6 +58,7 @@ class SecurityController extends Controller
             /** @var User $user */
             $user = $form->getData();
             $crypto = $this->get('security.password_encoder');
+            $user->setRole("ROLE_USER");
             $user->setPassword($crypto->encodePassword($user, $user->getPasswordRaw()));
 
             $manager = $this->getDoctrine()->getManager();

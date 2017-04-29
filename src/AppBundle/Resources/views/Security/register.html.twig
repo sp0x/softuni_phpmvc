@@ -1,4 +1,10 @@
-{% extends '::base.html.twig' %}
-{%  block body %}
-    {{ form(form) }}
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block title %}
+    Login
+{% endblock %}
+{% block content %}
+    {{ form(form, {
+        'class' : 'col-md-6 center'
+    }) }}
 {%  endblock %}

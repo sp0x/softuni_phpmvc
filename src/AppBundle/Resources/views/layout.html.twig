@@ -1,0 +1,13 @@
+{% extends ':shared:layout.html.twig' %}
+{% block body %}
+    <div class="jumbotron">
+        <h1>xCart</h1>
+        <h3>Yet another cart system written in php</h3>
+    </div>
+    {% block content %}{% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts '@AppBundle/Resources/public/js/*' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

@@ -16,7 +16,6 @@ class User implements UserInterface
 {
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN= 'ROLE_ADMIN';
-    const ROLE_SUPER_ADMIN=  'ROLE_SADMIN';
     const ROLE_EDITOR = 'ROLE_EDITOR';
     /**
      * @var int
@@ -275,14 +274,16 @@ class User implements UserInterface
      * Alternatively, the roles might be stored on a ``roles`` property,
      * and populated in any number of different ways when the user object
      * is created.
-     *
-     * @return (Role|string)[] The user roles
+     * @return array (Role|string)[] The user roles
      */
     public function getRoles()
     {
         return explode(',', $this->getRole());
     }
 
+    public function getAllRoles(){
+        return [self::ROLE_USER, self::ROLE_ADMIN, self::ROLE_EDITOR];
+    }
 
     /**
      * Returns the salt that was originally used to encode the password.

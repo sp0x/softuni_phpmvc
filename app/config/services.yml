@@ -4,11 +4,30 @@ parameters:
     #parameter_name: value
 
 services:
+  repo.products:
+    class: Doctrine\ORM\EntityRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+      - AppBundle\Entity\Product
+
+  repo.categories:
+    class: Doctrine\ORM\EntityRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+      - AppBundle\Entity\Category
+
+
   app.slugger:
     class: AppBundle\Utils\Slugger
   app.visitorvalidator:
     class: AppBundle\Utils\VisitorValidator
-    arguments: [ '@doctrine.orm.entity_manager' ]
+    arguments: ['@doctrine.orm.entity_manager']
+  app.requesthelper:
+    class: AppBundle\Utils\RequestHelper
+    arguments: ['@request_stack']
+  app.productsmanager:
+    class: AppBundle\Services\ProductsManager
+    arguments: [ "@repo.products" ]
 
     #service_name:
     #    class: AppBundle\Directory\ClassName

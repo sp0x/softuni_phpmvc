@@ -10,6 +10,24 @@ imports:
 parameters:
     locale: en
 
+
+assetic:
+  debug:          '%kernel.debug%'
+  use_controller: '%kernel.debug%'
+  filters:
+    sass:
+      bin: d:\\devlangs\\Ruby22\\bin\\sass
+      apply_to: "\\.scss$"
+#    cssrewrite:   ~
+
+braincrafted_bootstrap:
+  css_preprocessor: sass
+  auto_configure:
+          assetic: true
+          twig: true
+          knp_menu: true
+          knp_paginator: true
+
 framework:
     #esi: ~
     #translator: { fallbacks: ['%locale%'] }

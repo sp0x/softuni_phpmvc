@@ -1,0 +1,16 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block title %}
+    xCart: Home
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <b>Currently available products:</b>
+    </div>
+    <div class="row">
+        {% for product in products %}
+
+        {% endfor %}
+    </div>
+
+{% endblock %}
