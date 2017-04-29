@@ -1,0 +1,12 @@
+app_video:
+    resource: "@AppBundle/Controller/VideoController.php"
+    type:     annotation
+
+front_office:
+    resource: "@FrontOfficeBundle/Controller/"
+    type:     annotation
+    prefix:   /frontoffice
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation

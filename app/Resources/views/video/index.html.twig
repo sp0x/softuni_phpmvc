@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Videos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Videoid</th>
+                <th>Title</th>
+                <th>Config</th>
+                <th>Description</th>
+                <th>Isplaylist</th>
+                <th>Image</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Duration</th>
+                <th>Available</th>
+                <th>Author</th>
+                <th>Uploaddate</th>
+                <th>Items</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for video in videos %}
+            <tr>
+                <td><a href="{{ path('video_show', { 'id': video.id }) }}">{{ video.id }}</a></td>
+                <td>{{ video.videoId }}</td>
+                <td>{{ video.title }}</td>
+                <td>{{ video.config }}</td>
+                <td>{{ video.description }}</td>
+                <td>{% if video.isPlaylist %}Yes{% else %}No{% endif %}</td>
+                <td>{{ video.image }}</td>
+                <td>{% if video.created %}{{ video.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if video.updated %}{{ video.updated|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ video.duration }}</td>
+                <td>{% if video.available %}Yes{% else %}No{% endif %}</td>
+                <td>{{ video.author }}</td>
+                <td>{{ video.uploadDate }}</td>
+                <td>{{ video.items }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('video_show', { 'id': video.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('video_edit', { 'id': video.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('video_new') }}">Create a new video</a>
+        </li>
+    </ul>
+{% endblock %}

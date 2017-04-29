@@ -1,0 +1,2 @@
+<service id="router.request_context.decorated" class="Your\RequestContext" decorates="router.request_context" public="false">
+</service>
