@@ -1,11 +1,13 @@
-app_video:
-    resource: "@AppBundle/Controller/VideoController.php"
+moderator:
+    resource: "@ModeratorBundle/Controller/"
     type:     annotation
+    prefix:   /moderate
 
-front_office:
-    resource: "@FrontOfficeBundle/Controller/"
+admin:
+    resource: "@AdminBundle/Controller/"
     type:     annotation
-    prefix:   /frontoffice
+    prefix:   /admin
+
 
 app:
     resource: '@AppBundle/Controller/'
