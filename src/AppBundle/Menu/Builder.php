@@ -9,6 +9,7 @@
 namespace AppBundle\Menu;
 
 
+use AppBundle\Entity\User;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -35,11 +36,21 @@ class Builder implements ContainerAwareInterface
         return($isRemembered || $isFullyLogged);
     }
 
+    /**
+     * @return User
+     */
+    private function getUser(){
+        $tokens = $this->container->get('security.token_storage');
+        return $tokens->getToken()->getUser();
+    }
+
     public function rightMenu(FactoryInterface $factory, array $options){
         $menu = $factory->createItem('root');
         //If the user is logged
         if($this->isLoggedIn()){
-
+            $user = $this->getUser();
+            $menu->addChild('My Cart' , array('route' => 'mycart'));
+            $menu->addChild($user->getUsername() , array('route' => 'user_current'));
         }else{
             $currentRoute = $this->container->get('app.requesthelper')->getCurrentRoute();
             if($currentRoute=="user_login"){
@@ -52,9 +63,17 @@ class Builder implements ContainerAwareInterface
     }
     public function leftMenu(FactoryInterface $factory, array $options){
         $menu = $factory->createItem('root');
-        if($this->isLoggedIn()){
+        $isLoggedIn = $this->isLoggedIn();
+        if($isLoggedIn){
+            $user = $this->getUser();
             $routes = $this->container->get('router')->getRouteCollection();
-            $menu->addChild('Products', array('route' => $routes->get('products')));
+            if($user->isAdmin()){
+                $menu->addChild('Users', array('route' => 'user_list') );
+            }
+            if($user->isAdmin() || $user->isEditor()){
+                $menu->addChild('Categories', array('route' => 'category_list') );
+            }
+            $menu->addChild('Products', array('route' => 'product_index') );
         }
         return $menu;
     }

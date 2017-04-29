@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 /**
  * Product controller.
  *
- * @Route("product")
+ * @Route("products", name="products")
  */
 class ProductController extends Controller
 {
@@ -35,6 +35,7 @@ class ProductController extends Controller
      * Creates a new product entity.
      *
      * @Route("/new", name="product_new")
+     * @Security("has_role('ROLE_EDITOR')")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -77,6 +78,7 @@ class ProductController extends Controller
      * Displays a form to edit an existing product entity.
      *
      * @Route("/{id}/edit", name="product_edit")
+     * @Security("has_role('ROLE_EDITOR')")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Product $product)
@@ -102,6 +104,7 @@ class ProductController extends Controller
      * Deletes a product entity.
      *
      * @Route("/{id}", name="product_delete")
+     * @Security("has_role('ROLE_EDITOR')")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Product $product)

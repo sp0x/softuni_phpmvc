@@ -8,9 +8,17 @@
         <b>Currently available products:</b>
     </div>
     <div class="row">
-        {% for product in products %}
+        {% if products|length > 0 %}
+            {% for category in products %}
+                {% embed 'AppBundle:Product:category.html.twig' with { 'category' : category } %}
+                {% endembed %}
+            {% endfor %}
+        {% else %}
+            <p style="font-size: 20px; margin-top: 20px;">
+                Sorry but we don`t currently have any products available for you :(
+            </p>
+        {% endif %}
 
-        {% endfor %}
     </div>
 
 {% endblock %}

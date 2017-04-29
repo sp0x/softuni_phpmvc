@@ -37,4 +37,21 @@ class UserRepository
         return $user;
     }
 
+    /**
+     * Removes a user by his username
+     * @param $username
+     * @return bool
+     */
+    public function removeByUsername($username){
+        $user = $this->findOneBy(array('username' => $username));
+
+        if ($user != null){
+            $em = $this->getEntityManager();
+            $em->remove($user);
+            $em->flush();
+            return true;
+        }
+        return false;
+    }
+
 }

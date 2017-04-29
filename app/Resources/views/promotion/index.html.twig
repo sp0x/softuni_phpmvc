@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Promotions list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Productid</th>
+                <th>Isgeneral</th>
+                <th>Categoryid</th>
+                <th>Start</th>
+                <th>Criteria</th>
+                <th>Ends</th>
+                <th>Discount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for promotion in promotions %}
+            <tr>
+                <td><a href="{{ path('promotion_show', { 'id': promotion.id }) }}">{{ promotion.id }}</a></td>
+                <td>{{ promotion.productId }}</td>
+                <td>{% if promotion.isGeneral %}Yes{% else %}No{% endif %}</td>
+                <td>{{ promotion.categoryId }}</td>
+                <td>{% if promotion.start %}{{ promotion.start|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ promotion.criteria }}</td>
+                <td>{% if promotion.ends %}{{ promotion.ends|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ promotion.discount }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('promotion_show', { 'id': promotion.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('promotion_edit', { 'id': promotion.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('promotion_new') }}">Create a new promotion</a>
+        </li>
+    </ul>
+{% endblock %}

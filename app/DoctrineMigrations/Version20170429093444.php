@@ -26,7 +26,6 @@ class Version20170429093444 extends AbstractMigration
         $this->addSql('ALTER TABLE product ADD CONSTRAINT FK_D34A04AD12469DE2 FOREIGN KEY (category_id) REFERENCES category (id)');
         $this->addSql('ALTER TABLE product_comment ADD CONSTRAINT FK_45AD49DC4584665A FOREIGN KEY (product_id) REFERENCES product (id)');
         $this->addSql('ALTER TABLE user ADD role VARCHAR(255) NOT NULL, ADD is_banned TINYINT(1) NOT NULL, ADD cash NUMERIC(10, 0) NOT NULL');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D64957698A6A ON user (role)');
         $this->addSql('ALTER TABLE video CHANGE upload_date upload_date DATETIME NOT NULL');
     }
 

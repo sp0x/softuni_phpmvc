@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Promotion</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ promotion.id }}</td>
+            </tr>
+            <tr>
+                <th>Productid</th>
+                <td>{{ promotion.productId }}</td>
+            </tr>
+            <tr>
+                <th>Isgeneral</th>
+                <td>{% if promotion.isGeneral %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Categoryid</th>
+                <td>{{ promotion.categoryId }}</td>
+            </tr>
+            <tr>
+                <th>Start</th>
+                <td>{% if promotion.start %}{{ promotion.start|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Criteria</th>
+                <td>{{ promotion.criteria }}</td>
+            </tr>
+            <tr>
+                <th>Ends</th>
+                <td>{% if promotion.ends %}{{ promotion.ends|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Discount</th>
+                <td>{{ promotion.discount }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('promotion_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('promotion_edit', { 'id': promotion.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

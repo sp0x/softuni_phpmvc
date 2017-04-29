@@ -37,7 +37,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=255, unique=true)
+     * @ORM\Column(name="role", type="string", length=255)
      * @Assert\NotBlank()
      */
     private $role;
@@ -255,6 +255,14 @@ class User implements UserInterface
     public function getRole()
     {
         return $this->role;
+    }
+
+    public function isEditor(){
+        return $this->getRole()==self::ROLE_EDITOR;
+    }
+
+    public function isAdmin(){
+        return $this->getRole()==self::ROLE_ADMIN;
     }
 
     public function getDefaultRole(){

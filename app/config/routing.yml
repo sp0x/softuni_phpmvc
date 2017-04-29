@@ -1,14 +1,27 @@
 app_category:
     resource: "@AppBundle/Controller/CategoryController.php"
     type:     annotation
+    prefix:    /category
 
 app_product:
     resource: "@AppBundle/Controller/ProductController.php"
     type:     annotation
+    prefix:   /product
 
 app_user:
     resource: "@AppBundle/Controller/UserController.php"
     type:     annotation
+    prefix:   /user
+
+cart:
+    resource: "@AppBundle/Controller/CartController.php"
+    type:     annotation
+    prefix:   /cart
+
+promotion:
+    resource: "@AppBundle/Controller/PromotionController.php"
+    type:     annotation
+    prefix:   /promotion
 
 moderator:
     resource: "@ModeratorBundle/Controller/"
@@ -19,6 +32,7 @@ admin:
     resource: "@AdminBundle/Controller/"
     type:     annotation
     prefix:   /admin
+
 
 
 app:
