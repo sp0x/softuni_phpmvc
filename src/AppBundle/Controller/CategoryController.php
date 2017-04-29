@@ -37,8 +37,8 @@ class CategoryController extends Controller
     /**
      * Creates a new category entity.
      *
-     * @Route("/new", name="category_new"
-     * @Security("has_role('ROLE_ADMIN')"))
+     * @Route("/new", name="category_new")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
