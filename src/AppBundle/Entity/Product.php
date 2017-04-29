@@ -37,6 +37,13 @@ class Product
     private $cost;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="order", type="integer")
+     */
+    private $order;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="is_available", type="boolean")
@@ -120,6 +127,24 @@ class Product
     {
         return $this->cost;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param mixed $order
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    }
+
+
 
     /**
      * Set isAvailable

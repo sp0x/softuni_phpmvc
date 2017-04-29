@@ -22,9 +22,9 @@ class ProductComment
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="author", type="string", length=255)
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $author;
 
@@ -63,11 +63,11 @@ class ProductComment
     /**
      * Set author
      *
-     * @param string $author
+     * @param User $author
      *
      * @return ProductComment
      */
-    public function setAuthor($author)
+    public function setAuthor(User $author)
     {
         $this->author = $author;
 
@@ -75,9 +75,9 @@ class ProductComment
     }
 
     /**
-     * Get author
+     * Get User
      *
-     * @return string
+     * @return User
      */
     public function getAuthor()
     {

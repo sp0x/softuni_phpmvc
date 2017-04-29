@@ -320,4 +320,14 @@ class User implements UserInterface
         return $this;
     }
 
+
+    /**
+     * Get isBanned
+     *
+     * @return boolean
+     */
+    public function getIsBanned()
+    {
+        return $this->isBanned;
+    }
 }
