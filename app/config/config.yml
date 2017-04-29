@@ -18,7 +18,7 @@ assetic:
     sass:
       bin: d:\\devlangs\\Ruby22\\bin\\sass
       apply_to: "\\.scss$"
-#    cssrewrite:   ~
+    cssrewrite:   ~
 
 braincrafted_bootstrap:
   css_preprocessor: sass

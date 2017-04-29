@@ -1,38 +1,58 @@
 {% extends ':shared:layout.html.twig' %}
-
+{% block title %}{{ product.name }}{% endblock %}
 {% block body %}
-    <h1>{{ product.name }}</h1>
-    <ul>
-        <li>
-            <div class="row">
-               <p class="col-md-9">Cost: {{ product.cost }}</p>
-               <p class="col-md-4">Posted: {{ product.createdOn }}</p>
-            </div>
-        </li>
-        <li>
-            {{ product.description }}
-        </li>
-        <li>
-            <img src="/images/product/{{ product.image }}" style="width: 250px;">
-        </li>
+    <a style="font-size: 16px" href="{{ path('product_index') }}">Back</a>
 
-    </ul>
-    <ul>
-        <li>
-            <a href="{{ path('product_index') }}">Back</a>
-        </li>
-        {% if is_granted('ROLE_EDITOR') %}
+    {{ wo_render_breadcrumbs() }}
+    <h1>{{ product.name }}</h1>
+    <div>
+        <ul>
             <li>
-                <a href="{{ path('product_promote', { 'id': product.id }) }}">Promote</a>
+                <div class="row">
+                    <span class="col-md-8">Cost: {{ product.cost }} {{ currency }}</span>
+                    <span class="col-md-4">Posted: {{ product.createdOn|date('Y-m-d H:i:s') }}</span>
+                </div>
             </li>
             <li>
-                <a href="{{ path('product_edit', { 'id': product.id }) }}">Edit</a>
+                <img class="img col-md-6 product mainImage" src="/images/product/{{ product.image }}" >
             </li>
             <li>
-                {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-                {{ form_end(delete_form) }}
+                <p>
+                    Description:
+                </p>
+                <p>
+                     {{ product.description }}
+                </p>
             </li>
-        {% endif %}
-    </ul>
+            <li>
+                <p>
+                    Comments:
+                </p>
+                <div>
+                    {% for comment in product.comments %}
+                    <div>
+                        <div><span>From: {{ comment.author.username }}</span><span></span></div>
+                        <div>{{ comment.content }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <ul>
+            {% if is_granted('ROLE_EDITOR') %}
+                <li>
+                    {{ form_start(delete_form) }}
+                    <div>
+                        <a class="btn btn-default" href="{{ path('product_edit', { 'id': product.id }) }}">Edit</a>
+                        <a class="btn btn-primary" style="" href="{{ path('product_promote', { 'id': product.id }) }}">Promote</a>
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                    </div>
+                    {{ form_end(delete_form) }}
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
 {% endblock %}

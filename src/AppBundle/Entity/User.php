@@ -96,7 +96,7 @@ class User implements UserInterface
     private $isBanned;
 
     /**
-     * @ORM\Column(name="cash", type="decimal")
+     * @ORM\Column(name="cash", type="decimal", precision=10, scale=2)
      * @var
      */
     private $cash;

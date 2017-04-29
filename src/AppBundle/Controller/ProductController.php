@@ -8,10 +8,12 @@ use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Intl\Intl;
 
 /**
  * Product controller.
@@ -62,10 +64,14 @@ class ProductController extends Controller
                 $form->get('image_form')->addError(new FormError('Image is required'));
             }else{
                 $filename = md5($product->getName() . '' . $product->getCreatedOn()->format('Y-m-d H:i:s'));
-                $file->move([
-                    $this->get('kernel')->getRootDir() . '/../web/images/product/',
-                    $filename
-                ]);
+                $path = $this->get('kernel')->getRootDir();
+                $pathSuffix = '/../web/images/product/';
+                if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                    $pathSuffix = "\\..\\web\\images\\product\\";
+                } else { 
+                }
+                $path .= $pathSuffix;
+                $file->move(  $path,  $filename );
                 $product->setImage($filename);
 
                 $this->get('session')->getFlashBag()->add('success', 'Product was created successfully!');
@@ -95,16 +101,24 @@ class ProductController extends Controller
     public function showAction(Product $product)
     {
         $deleteForm = $this->createDeleteForm($product);
+        $currency = Intl::getCurrencyBundle()->getCurrencyName('EUR');
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        // Example with parameter injected into translation "user.profile"
+        $categoryUrl = $this->get('router')->generate('category_products', array('id' => $product->getCategory()->getId()));
+        $breadcrumbs->addItem($product->getCategory()->getName(), $categoryUrl);
+        $breadcrumbs->addItem($product->getName());
 
+// => 'Indian Rupee'
         return $this->render('product/show.html.twig', array(
             'product' => $product,
+            'currency' => $currency,
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
      * @param Product $product
-     * @Route("/promote", name="product_promote")
+     * @Route("/promote/{id}", name="product_promote")
      * @Security("has_role('ROLE_EDITOR')")
      * @Method("GET")
      */
@@ -128,8 +142,23 @@ class ProductController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $product->setDateUpdated(new \DateTime());
+            if ($product->getImageForm() instanceof UploadedFile) {
+                /** @var UploadedFile $file */
+                $file = $product->getImageForm();
+
+                $filename = md5($product->getName() . '' . $product->getDateUpdated()->format('Y-m-d H:i:s'));
+                $file->move(
+                    $this->get('kernel')->getRootDir() . '/../web/images/product/',
+                    $filename
+                );
+
+                $product->setImage($filename);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success',  'Product was updated successfully!');
             return $this->redirectToRoute('product_edit', array('id' => $product->getId()));
         }
 

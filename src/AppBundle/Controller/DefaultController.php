@@ -5,9 +5,11 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Intl\Intl;
 
 class DefaultController extends Controller
 {
+
     /**
      * @Route("/", name="homepage")
      * @param Request $request
@@ -17,9 +19,13 @@ class DefaultController extends Controller
     {
         // replace this example code with whatever you need
         $productsManager = $this->get('app.productsmanager');
-        $products = $productsManager->getAvailableInAllCategories();
+        //$products = $productsManager->getAvailableInAllCategories();
+        $categories = $productsManager->getAvailableInAllCategories();
+        $currency = Intl::getCurrencyBundle()->getCurrencySymbol('EUR');
+
         return $this->render('@App/Default/index.html.twig', [
-            'products' => $products,
+            'currency' => $currency,
+            'categories' => $categories,
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
 

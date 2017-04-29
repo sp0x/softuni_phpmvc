@@ -1,0 +1,28 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block title %}
+    xCart: Category {{ category.name }}
+{% endblock %}
+{% block stylesheets %}
+    {% stylesheets '@AppBundle/Resources/public/stylesheets/*' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    <div >
+        <h1 style="margin-bottom:20px; ">`{{ category.name }}` products</h1>
+        <div class="categoryItemsContainer row">
+            {% for product in category.getProducts() %}
+                <div onclick="window.location='{{ path("product_show", {"id": product.id} ) }}'" class="product productCover">
+                    <a href="{{ path("product_show", {"id": product.id} ) }}">
+                        <img class="product miniImage" src="/images/product/{{ product.image }}">
+                        <div class="infoStrip">
+                            {{ product.name }} | {{ product.getCost() }} {{ currency }}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

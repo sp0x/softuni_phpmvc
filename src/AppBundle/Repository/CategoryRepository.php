@@ -10,4 +10,10 @@ namespace AppBundle\Repository;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getAll()
+    {
+        $qb = $this->createQueryBuilder('c');
+        $categories = $qb->getQuery()->getResult();
+        return $categories;
+    }
 }

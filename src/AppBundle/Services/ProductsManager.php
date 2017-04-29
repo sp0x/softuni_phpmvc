@@ -9,7 +9,9 @@
 namespace AppBundle\Services;
 
 
+use AppBundle\Entity\Category;
 use AppBundle\Entity\Product;
+use AppBundle\Repository\CategoryRepository;
 use AppBundle\Repository\ProductRepository;
 use AppBundle\Repository\PromotionRepository;
 use Doctrine\ORM\EntityManager;
@@ -24,20 +26,30 @@ class ProductsManager
     protected $products;
     protected $promotions;
     protected $tokens;
+    protected $categories;
 
-    public function __construct(ProductRepository $repo, PromotionRepository $promotionRepo, TokenStorage $tokenStore)
+    public function __construct(ProductRepository $repo, PromotionRepository $promotionRepo, CategoryRepository $categories, TokenStorage $tokenStore)
     {
         $this->products = $repo;
         $this->promotions = $promotionRepo;
         $this->tokens = $tokenStore;
+        $this->categories = $categories;
     }
 
     /**
-     * @return array
+     * @return Category[]
      */
     public function getAvailableInAllCategories(){
-        $availables = $this->products->getAvailableProducts();
+        $availables = $this->categories->getAll();
         return $availables;
+    }
+
+    /**
+     * @param Category $category
+     * @return array
+     */
+    public function getAvailableInCategory(Category $category){
+        return $this->products->getByCategory($category->getId());
     }
 
     public function putOnPromotion(Product $product){

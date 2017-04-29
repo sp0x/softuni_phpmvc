@@ -3,13 +3,21 @@
 {% block title %}
     xCart: Home
 {% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets '@AppBundle/Resources/public/stylesheets/*' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
 {% block content %}
+
     <div class="row">
         <b>Currently available products:</b>
     </div>
     <div class="row">
-        {% if products|length > 0 %}
-            {% for category in products %}
+        {% if categories|length > 0 %}
+            {% for category in categories %}
                 {% embed 'AppBundle:Product:category.html.twig' with { 'category' : category } %}
                 {% endembed %}
             {% endfor %}

@@ -1,6 +1,5 @@
 /app/config/parameters.yml
 /build/
-/web/css
 /phpunit.xml
 /var/*
 */*.~

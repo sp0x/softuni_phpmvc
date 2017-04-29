@@ -107,7 +107,13 @@ class Category
      */
     public function getProducts()
     {
-        return $this->products;
+        $iterator = $this->products->getIterator();
+        $iterator->uasort(function ($a, $b) {
+            return ($a->getOrder() < $b->getOrder()) ? -1 : 1;
+        });
+        $collection = new ArrayCollection(iterator_to_array($iterator));
+
+        return $collection;
     }
 
     public function __toString()

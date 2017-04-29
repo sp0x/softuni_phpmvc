@@ -4,15 +4,16 @@ namespace AppBundle\Form;
 
 use AppBundle\AppBundle;
 use AppBundle\Entity\Category;
-use Doctrine\DBAL\Types\IntegerType;
-use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,10 +26,9 @@ class ProductType extends AbstractType
     {
         //$categoryRepo = $options['category_repository'];
         $builder->add('name', TextType::class)
-            ->add('cost', CurrencyType::class)
+            ->add('cost', MoneyType::class)
             ->add('order', IntegerType::class)
             ->add('isAvailable')
-            ->add('createdOn')
             ->add('description', TextareaType::class)
             ->add('image_form', FileType::class,  [
                 'data_class' => null,

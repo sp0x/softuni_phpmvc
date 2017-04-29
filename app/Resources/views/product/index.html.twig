@@ -8,10 +8,11 @@
             <tr class="row">
                 <th>Id</th>
                 <th>Name</th>
+                <th>Category</th>
                 <th>Cost</th>
                 <th>Order</th>
-                <th>Isavailable</th>
-                <th>Createdon</th>
+                <th>Available</th>
+                <th>Created</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -20,17 +21,18 @@
                 <tr class="row">
                     <td><a href="{{ path('product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
                     <td>{{ product.name }}</td>
+                    <td>{{ product.category.name }}</td>
                     <td>{{ product.cost }}</td>
                     <td>{{ product.order }}</td>
                     <td>{% if product.isAvailable %}Yes{% else %}No{% endif %}</td>
-                    <td>{{ product.createdOn }}</td>
+                    <td>{{ product.createdOn|date('Y-m-d H:i:s') }}</td>
                     <td>
                         <ul>
                             <li>
-                                <a href="{{ path('product_show', { 'id': product.id }) }}">show</a>
+                                <a href="{{ path('product_show', { 'id': product.id }) }}">Show</a>
                             </li>
                             <li>
-                                <a href="{{ path('product_edit', { 'id': product.id }) }}">edit</a>
+                                <a href="{{ path('product_edit', { 'id': product.id }) }}">Edit</a>
                             </li>
                         </ul>
                     </td>
@@ -43,7 +45,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('product_new') }}">Create a new product</a>
+            <a class="btn btn-primary" href="{{ path('product_new') }}">Create a new product</a>
         </li>
     </ul>
 {% endblock %}

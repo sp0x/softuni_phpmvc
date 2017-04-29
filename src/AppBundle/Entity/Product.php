@@ -26,7 +26,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="`name`", type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(max="255")
      */
@@ -35,14 +35,14 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="cost", type="decimal", precision=2, scale=0)
+     * @ORM\Column(name="cost", type="decimal", precision=10, scale=2)
      */
     private $cost;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="order", type="integer")
+     * @ORM\Column(name="`order`", type="integer")
      */
     private $order;
 
@@ -59,6 +59,13 @@ class Product
      * @ORM\Column(name="created_on", type="datetimetz")
      */
     private $createdOn;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_updated", type="datetime", nullable=true)
+     */
+    private $dateUpdated;
 
     /**
      * @var ProductComment[]
@@ -209,6 +216,24 @@ class Product
     {
         return $this->isAvailable;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateUpdated()
+    {
+        return $this->dateUpdated;
+    }
+
+    /**
+     * @param \DateTime $dateUpdated
+     */
+    public function setDateUpdated($dateUpdated)
+    {
+        $this->dateUpdated = $dateUpdated;
+    }
+
+
 
     /**
      * Set createdOn

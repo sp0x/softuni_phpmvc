@@ -1,21 +1,17 @@
 {% extends ':shared:layout.html.twig' %}
-
+{% block title %}xCart: Edit product{% endblock %}
 {% block body %}
+
+    <a href="{{ path('product_index') }}">Back to the list</a>
+
     <h1>Product edit</h1>
+
+    {{ form_start(delete_form) }}
+    <input style="float: right" class="btn btn-danger" type="submit" value="Delete">
+    {{ form_end(delete_form) }}
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+        <input class="btn btn-primary" type="submit" value="Edit" />
     {{ form_end(edit_form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('product_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
 {% endblock %}

@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Product;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * PromotionRepository
@@ -10,4 +12,25 @@ namespace AppBundle\Repository;
  */
 class PromotionRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param Product $product
+     * @return mixed
+     */
+    public function getProductPromotions($product)
+    {
+        $qb = $this->createQueryBuilder('promo');
+        $now = new \DateTime();
+        $qb->where($qb->expr()->orX(
+                $qb->expr()->eq('promo.productId', ':productId'),
+                $qb->expr()->eq('promo.isGeneral', true).
+                $qb->expr()->eq('promo.categoryId', ':categoryId')
+            ))
+            ->andWhere('promo.start >= :timeNow')
+            ->andWhere('promo.ends < :timeNow')
+            ->setParameter(':productId', $product->getId())
+            ->setParameter(':categoryId', $product->getCategory()->getId())
+            ->setParameter(':timeNow', new \DateTime() , Type::DATETIME);
+        $validProductPromotions = $qb->getQuery()->getOneOrNullResult();
+        return $validProductPromotions;
+    }
 }

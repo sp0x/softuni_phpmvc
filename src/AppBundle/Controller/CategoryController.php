@@ -3,11 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Category;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Intl\Intl;
 
 /**
  * Category controller.
@@ -16,6 +18,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  */
 class CategoryController extends Controller
 {
+
+
+
+
     /**
      * Lists all category entities.
      *
@@ -138,5 +144,19 @@ class CategoryController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * @param Category $category
+     * @Route("/items/{id}", name="category_products")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function productsAction(Category $category){
+
+        $currency = Intl::getCurrencyBundle()->getCurrencySymbol('EUR');
+        return $this->render('@App/Category/products.html.twig', [
+            'category' => $category,
+            'currency' => $currency
+        ]);
     }
 }

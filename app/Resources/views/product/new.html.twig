@@ -1,16 +1,12 @@
 {% extends ':shared:layout.html.twig' %}
 {% block title %}xCart: New product{% endblock %}
 {% block body %}
+    <a href="{{ path('product_index') }}">Back to the list</a>
     <h1>Product creation</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <input class="btn btn-primary" type="submit" value="Create" />
     {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('product_index') }}">Back to the list</a>
-        </li>
-    </ul>
 {% endblock %}

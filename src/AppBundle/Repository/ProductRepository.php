@@ -10,12 +10,29 @@ namespace AppBundle\Repository;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @return array
+     */
     public function getAvailableProducts(){
         $qb = $this->createQueryBuilder('p');
         $qb->where($qb->expr()->orX(
             $qb->expr()->eq('p.isAvailable', ':availability')
         ))
             ->setParameter(':availability', true);
+        $products = $qb->getQuery()->getResult();
+        return $products;
+    }
+
+    /**
+     * @param $categoryId
+     * @return array
+     */
+    public function getByCategory($categoryId){
+        $qb = $this->createQueryBuilder('p');
+        $qb->where($qb->expr()->eq('p.isAvailable', ':availability'))
+            ->andwhere($qb->expr()->eq('p.category', ':categoryId'))
+            ->setParameter(':availability', true)
+            ->setParameter(':categoryId', $categoryId);
         $products = $qb->getQuery()->getResult();
         return $products;
     }

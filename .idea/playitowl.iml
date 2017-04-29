@@ -83,6 +83,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/twbs/bootstrap" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/twbs/bootstrap-sass" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/twig" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/whiteoctober/breadcrumbs-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-code" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-eventmanager" />
     </content>
@@ -138,6 +139,7 @@
           <root url="file://$MODULE_DIR$/vendor/twbs/bootstrap" />
           <root url="file://$MODULE_DIR$/vendor/twbs/bootstrap-sass" />
           <root url="file://$MODULE_DIR$/vendor/twig/twig" />
+          <root url="file://$MODULE_DIR$/vendor/whiteoctober/breadcrumbs-bundle" />
           <root url="file://$MODULE_DIR$/vendor/zendframework/zend-code" />
           <root url="file://$MODULE_DIR$/vendor/zendframework/zend-eventmanager" />
         </CLASSES>
@@ -190,6 +192,7 @@
           <root url="file://$MODULE_DIR$/vendor/twbs/bootstrap" />
           <root url="file://$MODULE_DIR$/vendor/twbs/bootstrap-sass" />
           <root url="file://$MODULE_DIR$/vendor/twig/twig" />
+          <root url="file://$MODULE_DIR$/vendor/whiteoctober/breadcrumbs-bundle" />
           <root url="file://$MODULE_DIR$/vendor/zendframework/zend-code" />
           <root url="file://$MODULE_DIR$/vendor/zendframework/zend-eventmanager" />
         </SOURCES>

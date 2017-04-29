@@ -51,7 +51,7 @@ class Builder implements ContainerAwareInterface
             $user = $this->getUser();
             $menu->addChild('My Cart' , array('route' => 'mycart'));
             $menu->addChild($user->getUsername() , array('route' => 'user_current'));
-            $menu[$user->getUsername()]->addChild("Credit: {$user->getCash()}", array());
+            $menu[$user->getUsername()]->addChild("Credit: {$user->getCash()}", array('route'=>'mycart'));
             $menu[$user->getUsername()]->addChild('Logout', array('route' => 'logout'));
 
         }else{

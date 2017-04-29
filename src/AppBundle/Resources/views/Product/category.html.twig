@@ -1,3 +1,15 @@
-{% for product in category.products %}
-    {{ product.name }}
-{% endfor %}
+<div style="margin-bottom:20px; border-top: #dadada solid 2px " >
+    <p style="font-size: 20px">{{ category.name }}</p>
+    <div class="categoryItemsContainer row">
+        {% for product in category.getProducts() %}
+            <div onclick="window.location='{{ path("product_show", {"id": product.id} ) }}'" class="product productCover">
+               <a href="{{ path("product_show", {"id": product.id} ) }}">
+                   <img class="product miniImage" src="/images/product/{{ product.image }}">
+                   <div class="infoStrip">
+                       {{ product.name }} | {{ product.getCost() }} {{ currency }}
+                   </div>
+               </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
