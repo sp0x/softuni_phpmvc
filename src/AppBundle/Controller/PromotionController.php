@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Promotion;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Promotion controller.
@@ -18,6 +20,7 @@ class PromotionController extends Controller
      * Lists all promotion entities.
      *
      * @Route("/", name="promotion_index")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method("GET")
      */
     public function indexAction()
@@ -33,7 +36,7 @@ class PromotionController extends Controller
 
     /**
      * Creates a new promotion entity.
-     *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/new", name="promotion_new")
      * @Method({"GET", "POST"})
      */
@@ -59,7 +62,7 @@ class PromotionController extends Controller
 
     /**
      * Finds and displays a promotion entity.
-     *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/{id}", name="promotion_show")
      * @Method("GET")
      */
@@ -75,7 +78,7 @@ class PromotionController extends Controller
 
     /**
      * Displays a form to edit an existing promotion entity.
-     *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/{id}/edit", name="promotion_edit")
      * @Method({"GET", "POST"})
      */
@@ -100,7 +103,7 @@ class PromotionController extends Controller
 
     /**
      * Deletes a promotion entity.
-     *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/{id}", name="promotion_delete")
      * @Method("DELETE")
      */
