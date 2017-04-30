@@ -29,12 +29,15 @@
                     <td>{% if product.isAvailable %}Yes{% else %}No{% endif %}</td>
                     <td>{{ product.createdOn|date('Y-m-d H:i:s') }}</td>
                     <td>
-                        <a href="{{ path('product_show', { 'id': product.id }) }}">Show</a> |
-                        <a href="{{ path('product_edit', { 'id': product.id }) }}">Edit</a> |
-                        {%  if product.availability %}
-                            <a href="{{ path('product_set_quantity', { 'id': product.id }) }}">Set quantity</a>
-                        {% else %}
-                            <a href="{{ path('product_define_quantity', { 'id': product.id }) }}">Add quantity</a>
+                        <a href="{{ path('product_show', { 'id': product.id }) }}">Show</a>
+                        {% if is_granted("ROLE_EDITOR") %}
+                            |
+                            <a href="{{ path('product_edit', { 'id': product.id }) }}">Edit</a> |
+                            {%  if product.availability %}
+                                <a href="{{ path('product_set_quantity', { 'id': product.id }) }}">Set quantity</a>
+                            {% else %}
+                                <a href="{{ path('product_define_quantity', { 'id': product.id }) }}">Add quantity</a>
+                            {% endif %}
                         {% endif %}
                     </td>
                 </tr>
@@ -45,8 +48,10 @@
     </div>
 
     <ul>
-        <li>
-            <a class="btn btn-primary" href="{{ path('product_new') }}">Create a new product</a>
-        </li>
+        {% if is_granted("ROLE_EDITOR") %}
+            <li>
+                <a class="btn btn-primary" href="{{ path('product_new') }}">Create a new product</a>
+            </li>
+        {% endif %}
     </ul>
 {% endblock %}

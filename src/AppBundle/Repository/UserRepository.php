@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 use AppBundle\Entity\HostBan;
+use AppBundle\Entity\User;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -53,6 +54,33 @@ class UserRepository
             return true;
         }
         return false;
+    }
+
+    public function isBanned($username)
+    {
+        /** @var User $user */
+        $user = $this->loadUserByUsername($username);
+        if($user==null){
+            return false;
+        }
+        else if($user->getIsBanned()){
+            return true;
+        }
+    }
+
+    public function ban(User $user)
+    {
+        $user->setIsBanned(true);
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+    }
+    public function unban(User $user)
+    {
+        $user->setIsBanned(false);
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
     }
 
 }

@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use AppBundle\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -23,21 +24,23 @@ class SecurityController extends Controller
      * @Template()
      * @return array
      */
-    public function loginAction(){
+    public function loginAction(Request $request){
         //$this->render , but im using templates
-        $string = "some text";
-        $slugger = $this->get('app.slugger');
-        $slugger->slugify($string);
-
-        $auth_utils = $this->get('security.authentication_utils');
-        $error = $auth_utils->getLastAuthenticationError();
-        $last_user = $auth_utils->getLastUsername();
-
-
+        $username = $request->get('_username');
+        $em = $this->getDoctrine()->getManager();
+        /** @var UserRepository $userRepo */
+        $userRepo = $em->getRepository(User::class);
+        if($userRepo->isBanned($username)){
+            $error = "You have been banned!";
+        }else{
+            $auth_utils = $this->get('security.authentication_utils');
+            $error = $auth_utils->getLastAuthenticationError();
+            $last_user = $auth_utils->getLastUsername();
+        }
         //error.messageKey|trans(error.messageData, 'security')
         if($error){
             $flash = $this->get('braincrafted_bootstrap.flash');
-            $flash->error($error->getMessage());
+            $flash->error(is_string($error) ? $error : $error->getMessage());
         }
         return [
             'last_username' => $last_user,

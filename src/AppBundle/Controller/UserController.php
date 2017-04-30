@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -115,6 +116,32 @@ class UserController extends Controller
         ));
     }
 
+
+    /**
+     * @Route("/ban/{id}", name="user_ban")
+     * @Security("has_role('ROLE_ADMIN')")
+     *
+     */
+    public function userBanAction(User $user){
+        $em = $this->getDoctrine()->getManager();
+        /** @var UserRepository $userRepo */
+        $userRepo = $em->getRepository(User::class);
+        $userRepo->ban($user);
+        return $this->redirectToRoute('user_list');
+    }
+
+    /**
+     * @Route("/unban/{id}", name="user_unban")
+     * @Security("has_role('ROLE_ADMIN')")
+     *
+     */
+    public function userUnbanAction(User $user){
+        $em = $this->getDoctrine()->getManager();
+        /** @var UserRepository $userRepo */
+        $userRepo = $em->getRepository(User::class);
+        $userRepo->unban($user);
+        return $this->redirectToRoute('user_list');
+    }
 
     /**
      * Deletes a product entity.

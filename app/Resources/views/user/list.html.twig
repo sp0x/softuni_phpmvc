@@ -1,5 +1,17 @@
 {% extends ':shared:layout.html.twig' %}
 {% block title %}xCart: Users{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets '@AppBundle/Resources/public/stylesheets/*' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts '@AppBundle/Resources/public/js/*'  %}
+    <script  src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
+{% endblock %}
+
 {% block body %}
     <h1>Users list</h1>
     <div class="table-responsive">
@@ -8,9 +20,9 @@
                 <tr class="row">
                     <th>Id</th>
                     <th>Username</th>
+                    <th>Banned</th>
                     <th>Role</th>
                     <th>Email</th>
-                    <th>Password</th>
                     <th>Active</th>
                     <th>Banned</th>
                     <th>Cash</th>
@@ -22,15 +34,21 @@
                 <tr class="row">
                     <td><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
                     <td>{{ user.username }}</td>
+                    <td>{{ user.isBanned }}</td>
                     <td>{{ user.role }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.password }}</td>
                     <td>{% if user.isActive %}Yes{% else %}No{% endif %}</td>
                     <td>{% if user.isBanned %}Yes{% else %}No{% endif %}</td>
                     <td>{{ user.cash }}</td>
                     <td>
-                        <a href="{{ path('user_show', { 'id': user.id }) }}">show</a> |
-                        <a href="{{ path('user_delete', { 'id': user.id }) }}">delete</a>
+                        <a href="{{ path('user_show', { 'id': user.id }) }}">Show</a> |
+                        <a href="{{ path('user_edit', { 'id': user.id }) }}">Edit</a> |
+                        <a href="{{ path('user_delete', { 'id': user.id }) }}">Delete</a> |
+                        {% if user.isBanned %}
+                            <a href="{{ path('user_unban', { 'id': user.id }) }}">Unban</a>
+                        {% else %}
+                            <a href="{{ path('user_ban', { 'id': user.id }) }}">Ban</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
