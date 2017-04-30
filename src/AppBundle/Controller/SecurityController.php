@@ -69,6 +69,7 @@ class SecurityController extends Controller
             $crypto = $this->get('security.password_encoder');
             $user->setRole("ROLE_USER");
             $user->setCash($initialCash);
+            $user->setCreatedOn(new \DateTime());
             $user->setPassword($crypto->encodePassword($user, $user->getPasswordRaw()));
 
             $manager = $this->getDoctrine()->getManager();

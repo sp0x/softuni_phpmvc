@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 use AppBundle\Entity\Product;
+use AppBundle\Entity\Promotion;
 use Doctrine\DBAL\Types\Type;
 
 /**
@@ -16,7 +17,7 @@ class PromotionRepository extends \Doctrine\ORM\EntityRepository
      * @param Product $product
      * @return mixed
      */
-    public function getProductPromotions($product)
+    public function getProductPromotion($product)
     {
         $qb = $this->createQueryBuilder('promo');
         $qb->where($qb->expr()->orX(
@@ -24,13 +25,30 @@ class PromotionRepository extends \Doctrine\ORM\EntityRepository
                 $qb->expr()->eq('promo.isGeneral', ':isGeneral'),
                 $qb->expr()->eq('promo.categoryId', ':categoryId')
             ))
-            ->andWhere('promo.start >= :timeNow')
-            ->andWhere('promo.ends < :timeNow')
+            ->andWhere('promo.start <= :timeNow')
+            ->andWhere('promo.ends > :timeNow')
             ->setParameter(':productId', $product->getId())
             ->setParameter(':isGeneral', true)
             ->setParameter(':categoryId', $product->getCategory()->getId())
-            ->setParameter(':timeNow', new \DateTime() , Type::DATETIME);
-        $validProductPromotions = $qb->getQuery()->getOneOrNullResult();
-        return $validProductPromotions;
+            ->setParameter(':timeNow', new \DateTime() , Type::DATETIME)
+            ->orderBy('promo.discount', 'DESC');
+        $promotion = $qb->getQuery()->getOneOrNullResult();
+
+        return $promotion;
+    }
+
+    /**
+     * @return Promotion[]
+     */
+    public function getSpecialPromotions()
+    {
+        $qb = $this->createQueryBuilder('promo');
+        $qb->where('promo.start <= :timeNow')
+            ->andWhere('promo.ends > :timeNow')
+            ->andWhere('promo.criteria IS NOT NULL')
+            ->setParameter(':timeNow', new \DateTime() , Type::DATETIME)
+            ->orderBy('promo.discount', 'DESC');
+        $promotions = $qb->getQuery()->getResult();
+        return $promotions;
     }
 }

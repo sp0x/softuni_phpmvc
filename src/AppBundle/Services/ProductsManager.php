@@ -12,6 +12,7 @@ namespace AppBundle\Services;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductAvailability;
+use AppBundle\Entity\Promotion;
 use AppBundle\Repository\CategoryRepository;
 use AppBundle\Repository\ProductAvailabilityRepository;
 use AppBundle\Repository\ProductRepository;
@@ -83,9 +84,73 @@ class ProductsManager
 
     }
 
+    /**
+     * Applies the best available promotion to the product
+     * @param Product $product
+     */
     public function applyAvailablePromotions(Product &$product){
-        $productPromotions = $this->promotions->getProductPromotions($product);
+        $bestPromotion = $this->getBestPromotion($product);
+        if($bestPromotion!=null){
+            $product->setPromotion($bestPromotion);
+        }
+    }
 
+    /**
+     * @param Product $product
+     * @return Promotion|null
+     */
+    protected function getBestPromotion(Product $product)
+    {
+        $productPromotion = $this->promotions->getProductPromotion($product);
+        $allSpecialPromotions = $this->promotions->getSpecialPromotions();
+        $qualifiedSpecialPomotions = [];
+        $user = $this->tokens->getToken()->getUser();
+        //Qualify the normal promotions and the user promotions
+        foreach ($allSpecialPromotions as $specialPromotion) {
+            $criterion = $specialPromotion->getCriteria();
+            $role = $user->getRole();
+            $valid = false;
+            if ($criterion == "USER_IS_ADMIN") {
+                if ($role == "ROLE_ADMIN") {
+                    $valid = true;
+                }
+            } else if ($criterion == "USER_REGISTERED_1D") {
+                $registeredOn = $user->getCreatedOn();
+                $now = new \DateTime();
+                $diff = $now->diff($registeredOn);
+                $days = $diff->format('%R%a');
+                $days = ltrim($days, '+');
+                $days = (int)$days;
+                if ($days > 1) {
+                    $valid = true;
+                }
+            } else if ($criterion == "USER_CREDIT_100") {
+                $userCredit = $user->getCash();
+                if ($userCredit > 100) {
+                    $valid = true;
+                }
+            }
+            if ($valid) {
+                $qualifiedSpecialPomotions[] = $specialPromotion;
+            }
+        }
+        if($productPromotion==null) $productPromotion = [];
+        else{
+            $productPromotion = [$productPromotion];
+        }
+        $allPromotionsClassified = array_merge($productPromotion, $qualifiedSpecialPomotions);
+        $maxDiscount = -1;
+        $biggestPromotion = null;
+        for ($i = 0; $i < count($allPromotionsClassified); $i++) {
+            /** @var Promotion $p */
+            $p = $allPromotionsClassified[$i];
+            if ($p->getDiscount() > $maxDiscount) {
+                $maxDiscount = $p->getDiscount();
+                $biggestPromotion = $p;
+            }
+        }
+
+        return $biggestPromotion;
     }
 
 }

@@ -101,6 +101,29 @@ class User implements UserInterface
      */
     private $cash;
 
+    /**
+     * @ORM\Column(name="created_on", type="datetime", nullable=true)
+     * @var
+     */
+    private $createdOn;
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedOn()
+    {
+        return $this->createdOn;
+    }
+
+    /**
+     * @param mixed $createdOn
+     */
+    public function setCreatedOn($createdOn)
+    {
+        $this->createdOn = $createdOn;
+    }
+
+
 
     public function __construct(){
         $this->isActive = true;

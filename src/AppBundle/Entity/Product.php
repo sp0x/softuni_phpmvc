@@ -107,6 +107,29 @@ class Product
     private $initialQuantity;
 
     /**
+     * @var Promotion
+     */
+    private $promotion;
+
+    /**
+     * @return Promotion
+     */
+    public function getPromotion()
+    {
+        return $this->promotion;
+    }
+
+    /**
+     * @param Promotion $promotion
+     */
+    public function setPromotion($promotion)
+    {
+        $this->promotion = $promotion;
+    }
+
+
+
+    /**
      * @return mixed
      */
     public function getInitialQuantity()
@@ -209,11 +232,19 @@ class Product
     /**
      * Get cost
      *
-     * @return string
+     * @param null $discountPerc
+     * @return float
      */
-    public function getCost()
+    public function getCost(&$discountPerc = null)
     {
-        return $this->cost;
+        if($this->promotion!=null){
+            $discountPerc = floatval($this->promotion->getDiscount()) / 100;
+            $discount = floatval($this->cost) * $discountPerc;
+            $discountedCost = $this->cost - $discount;
+            return $discountedCost;
+        }else{
+            return $this->cost;
+        }
     }
 
     /**

@@ -59,7 +59,7 @@ class Promotion
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start", type="datetime")
+     * @ORM\Column(name="`start`", type="datetime")
      */
     private $start;
 
@@ -72,7 +72,7 @@ class Promotion
     /**
      * @var string
      *
-     * @ORM\Column(name="ends", type="datetime")
+     * @ORM\Column(name="`ends`", type="datetime")
      */
     private $ends;
 

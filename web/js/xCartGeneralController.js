@@ -26,6 +26,7 @@ app.controller('xCartGeneralController', function($scope, $compile, $templateCac
                 if(typeof data == "string") data = JSON.parse(data);
                 if(data.success){
                     //All is well
+                    alert("The product was added to your cart!");
                 }else{
                     alert("Error: " + data.message);
                 }
