@@ -62,7 +62,9 @@ services:
   app.cartmanager:
     class: AppBundle\Services\CartManager
     arguments: [ "@repo.products", "@repo.promotions", "@repo.categories", "@repo.product_availability", "@repo.cartitem", "@repo.sale", "@security.token_storage"]
-
+  app.salesmanager:
+    class: AppBundle\Services\SalesManager
+    arguments: [ "@repo.sale"]
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']

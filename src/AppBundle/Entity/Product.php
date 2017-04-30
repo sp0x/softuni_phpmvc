@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Product
 {
+    const STATUS_USED = "used";
+
     /**
      * @var int
      *
@@ -104,6 +106,12 @@ class Product
      */
     private $description;
 
+    /**
+     * @var string
+     * @ORM\Column(name="status", type="string", length=30, nullable=true)     *
+     */
+    private $status;
+
     private $initialQuantity;
 
     /**
@@ -126,6 +134,23 @@ class Product
     {
         $this->promotion = $promotion;
     }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
 
 
 

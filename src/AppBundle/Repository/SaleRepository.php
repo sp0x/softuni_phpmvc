@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 use \AppBundle\Entity\CartItem;
 use \AppBundle\Entity\Sale;
+use AppBundle\Entity\User;
 
 /**
  * SaleRepository
@@ -28,6 +29,19 @@ class SaleRepository extends \Doctrine\ORM\EntityRepository
         $em->persist($sale);
         $em->flush();
         return $sale;
+    }
+
+    /**
+     * @param User $user
+     * @return Sale[]
+     */
+    public function getByUser(User $user)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->where($qb->expr()->eq('s.user', ':user'))
+            ->setParameter(':user', $user);
+        $item = $qb->getQuery()->getResult();
+        return $item;
     }
 
 }

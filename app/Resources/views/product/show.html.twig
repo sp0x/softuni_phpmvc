@@ -40,6 +40,9 @@
                         {% else %}{{ availability }}{% endif %}</p>
                 </li>
                 <li>
+                    Is used: {% if product.status and product.status=="used" %}Yes{% else %}No{% endif %}
+                </li>
+                <li>
                     <p>
                         Description:
                     </p>

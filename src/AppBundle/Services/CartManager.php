@@ -42,6 +42,10 @@ class CartManager
      * @var CartItemRepository
      */
     protected $cartItems;
+    /**
+     * @var SaleRepository
+     */
+    protected $sales;
 
 
     public function __construct(ProductRepository $repo, PromotionRepository $promotionRepo, CategoryRepository $categories,

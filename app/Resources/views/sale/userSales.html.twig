@@ -1,0 +1,45 @@
+{% extends ':shared:layout.html.twig' %}
+{% block title %}xCart: My purchases {% endblock %}
+{% block stylesheets %}
+    {% stylesheets '@AppBundle/Resources/public/stylesheets/*' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts '@AppBundle/Resources/public/js/*'  %}
+    <script  src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block body %}
+    <h1>My purchases</h1>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr class="row">
+                <th>Id</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Sold on</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sale in sales %}
+                <tr class="row">
+                    <td><a href="#">{{ sale.id }}</a></td>
+                    <td>{{ sale.product.name }}</td>
+                    <td>{{ sale.quantity }}</td>
+                    <td>{{ sale.createdOn|date('Y-m-d H:i:s') }}</td>
+                    <td>
+                        <a href="{{ path('sales_resell', { 'id': sale.id }) }}">Resell</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    
+{% endblock %}
