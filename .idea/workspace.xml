@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d971b486-d0c6-49e1-a43f-c58a72e3992d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config.yml" afterPath="$PROJECT_DIR$/app/config/config.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Repository/PromotionRepository.php" afterPath="$PROJECT_DIR$/src/AppBundle/Repository/PromotionRepository.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.css" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.css.map" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.css.map" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.scss" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/Category/products.html.twig" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/Category/products.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/Product/category.html.twig" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/Product/category.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Services/ProductsManager.php" afterPath="$PROJECT_DIR$/src/AppBundle/Services/ProductsManager.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/bb54fd1.js" afterPath="$PROJECT_DIR$/web/js/bb54fd1.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -79,8 +72,8 @@
       <file leaf-file-name="product.scss" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="67" column="24" lean-forward="false" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="24" />
+            <state relative-caret-position="377">
+              <caret line="68" column="16" lean-forward="false" selection-start-line="68" selection-start-column="16" selection-end-line="68" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -1641,12 +1634,12 @@
       <workItem from="1493297876549" duration="88338000" />
       <workItem from="1493536851833" duration="1356000" />
       <workItem from="1493540618327" duration="1243000" />
-      <workItem from="1493542650875" duration="9774000" />
+      <workItem from="1493542650875" duration="9890000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="126657000" />
+    <option name="totallyTimeSpent" value="126773000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -2097,8 +2090,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="67" column="24" lean-forward="false" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="24" />
+        <state relative-caret-position="377">
+          <caret line="68" column="16" lean-forward="false" selection-start-line="68" selection-start-column="16" selection-end-line="68" selection-end-column="16" />
           <folding />
         </state>
       </provider>

@@ -45,7 +45,8 @@ a {
   background: #ececec;
   border-radius: 2px; }
   .product.productCover .product-mini-wrap {
-    text-align: center; }
+    text-align: center;
+    overflow: hidden; }
     .product.productCover .product-mini-wrap img {
       vertical-align: inherit; }
 .product.miniImage {
