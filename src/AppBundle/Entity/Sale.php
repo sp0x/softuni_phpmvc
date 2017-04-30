@@ -22,9 +22,9 @@ class Sale
     private $id;
 
     /**
-     * @var guid
+     * @var string
      *
-     * @ORM\Column(name="purchase_id", type="guid", unique=true)
+     * @ORM\Column(name="purchase_id", type="string", length=255)
      */
     private $purchaseId;
 
@@ -86,7 +86,7 @@ class Sale
     /**
      * Get purchaseId
      *
-     * @return guid
+     * @return string
      */
     public function getPurchaseId()
     {

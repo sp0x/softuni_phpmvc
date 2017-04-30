@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use \AppBundle\Entity\CartItem;
+use \AppBundle\Entity\Sale;
 
 /**
  * SaleRepository
@@ -10,4 +12,22 @@ namespace AppBundle\Repository;
  */
 class SaleRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param CartItem $cartItem
+     * @return Sale
+     */
+    public function createByCartItem(CartItem $cartItem, $guid)
+    {
+        $sale = new Sale();
+        $sale->setProduct($cartItem->getProduct());
+        $sale->setUser($cartItem->getUser());
+        $sale->setCreatedOn(new \DateTime());
+        $sale->setPurchaseId($guid);
+        $sale->setQuantity($cartItem->getQuantity());
+        $em = $this->getEntityManager();
+        $em->persist($sale);
+        $em->flush();
+        return $sale;
+    }
+
 }

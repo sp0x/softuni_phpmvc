@@ -40,16 +40,10 @@ class UserController extends Controller
     {
         $cm = $this->get('app.cartmanager');
         $pm = $this->get('app.productsmanager');
-        $cart = $cm->getMycart();
-        $total = 0;
-        if($cart!=null){
-            foreach($cart as $k => $cartItem){
-                $product = $cartItem->getProduct();
-                $pm->applyAvailablePromotions($product);
-                $cartItem->setProduct($product);
-                $total += $cartItem->getTotalPrice();
-            }
-        }
+        $cartResult = $cm->getMyCartWithPromotions($pm);
+        $cart = @$cartResult['cart'];
+        $total = @$cartResult['total'];
+
         $currency = Intl::getCurrencyBundle()->getCurrencySymbol('EUR');;
 
         return $this->render('AppBundle:User:view_cart.html.twig', array(

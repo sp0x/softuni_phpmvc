@@ -32,6 +32,7 @@ class UserRepository
                 $qb->expr()->eq('u.username', ':username'),
                 $qb->expr()->eq('u.email', ':username')
             ))
+            ->setMaxResults(1)
             ->setParameter(':username', $username);
         $user = $qb->getQuery()->getOneOrNullResult();
         return $user;

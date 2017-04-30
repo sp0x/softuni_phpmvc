@@ -40,6 +40,14 @@ services:
     arguments:
       - AppBundle\Entity\CartItem
 
+  repo.sale:
+    class: Doctrine\ORM\EntityRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+      - AppBundle\Entity\Sale
+
+
+
   app.slugger:
     class: AppBundle\Utils\Slugger
   app.visitorvalidator:
@@ -53,7 +61,7 @@ services:
     arguments: [ "@repo.products", "@repo.promotions", "@repo.categories", "@repo.product_availability", "@security.token_storage"]
   app.cartmanager:
     class: AppBundle\Services\CartManager
-    arguments: [ "@repo.products", "@repo.promotions", "@repo.categories", "@repo.product_availability", "@repo.cartitem", "@security.token_storage"]
+    arguments: [ "@repo.products", "@repo.promotions", "@repo.categories", "@repo.product_availability", "@repo.cartitem", "@repo.sale", "@security.token_storage"]
 
     #service_name:
     #    class: AppBundle\Directory\ClassName

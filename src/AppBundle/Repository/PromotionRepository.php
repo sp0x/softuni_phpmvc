@@ -31,6 +31,7 @@ class PromotionRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter(':isGeneral', true)
             ->setParameter(':categoryId', $product->getCategory()->getId())
             ->setParameter(':timeNow', new \DateTime() , Type::DATETIME)
+            ->setMaxResults(1)
             ->orderBy('promo.discount', 'DESC');
         $promotion = $qb->getQuery()->getOneOrNullResult();
 

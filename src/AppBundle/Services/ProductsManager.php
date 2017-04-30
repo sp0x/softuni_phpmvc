@@ -60,8 +60,22 @@ class ProductsManager
         }
     }
 
-    public function setAvailability(Product $product, ProductAvailability $availability){
+    public function subtractAvailability(Product $product, $intToSubtract){
+        if(is_int($intToSubtract) || is_numeric($intToSubtract)){
+            $availability = $this->availabilities->get($product);
+            if($availability===null){
+                return 0;
+            }else{
+                $newAvailability = $availability->getQuantity() - $intToSubtract;
+                $this->availabilities->set($product, $newAvailability);
+                return $newAvailability;
+            }
+        }
+        return false;
+    }
 
+    public function setAvailability(Product $product, ProductAvailability $availability){
+        $this->availabilities->set($product, $availability->getQuantity());
     }
 
     /**

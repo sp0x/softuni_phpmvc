@@ -1,7 +1,21 @@
-{% extends "::base.html.twig" %}
+{% extends ":shared:layout.html.twig" %}
+{% block title %}Success!{% endblock %}
 
-{% block title %}AppBundle:CartController:checkout{% endblock %}
+{% block stylesheets %}
+    {% stylesheets '@AppBundle/Resources/public/stylesheets/*' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 
 {% block body %}
-<h1>Welcome to the CartController:checkout page</h1>
+    {% if success %}
+        <h1>You have just checked out your cart!</h1>
+        <h3>You will `eventually` receive a call from our delivery department.</h3>
+    {% else %}
+        {% if items|length > 0 %}
+        {% else %}
+            <h1>Oops :(</h1>
+            <h3>You do not have any products in your cart, please add some in order to checkout!</h3>
+        {% endif %}
+    {% endif %}
 {% endblock %}

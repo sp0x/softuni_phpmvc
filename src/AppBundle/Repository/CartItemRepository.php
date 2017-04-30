@@ -54,12 +54,33 @@ class CartItemRepository extends \Doctrine\ORM\EntityRepository
         $qb = $em->createQueryBuilder();
         $q=$qb->update(CartItem::class, 'c')
             ->set('c.isAvailable', $qb->expr()->literal(0))
-            ->andwhere($qb->expr()->eq('c.user', ':user'))
+            ->where($qb->expr()->eq('c.user', ':user'))
             ->andWhere($qb->expr()->eq('c.status', ':status'))
             ->andWhere($qb->expr()->eq('c.product', ':product'))
             ->setParameter(':status', 'NONE')
             ->setParameter(':user', $user)
             ->setParameter(':product', $product)
+            ->getQuery();
+        $item = $q->getSingleResult();
+        return $item;
+    }
+
+    /**
+     * @param CartItem $cartItem
+     * @param $status
+     * @param bool $deactivate
+     * @return mixed
+     */
+    public function updateStatus(CartItem $cartItem, $status, $deactivate = true)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $activeField = $deactivate ? 0 : 1;
+        $q=$qb->update(CartItem::class, 'c')
+            ->set('c.isAvailable', $qb->expr()->literal($activeField))
+            ->set('c.status', $qb->expr()->literal($status))
+            ->where($qb->expr()->eq('c.id', ':cartId'))
+            ->setParameter(':cartId', $cartItem->getId())
             ->getQuery();
         $item = $q->getSingleResult();
         return $item;
@@ -82,5 +103,7 @@ class CartItemRepository extends \Doctrine\ORM\EntityRepository
     public function itemExists(Product $product, User $user){
         return $this->getNonCheckedout($product, $user)!=null;
     }
+
+
 
 }

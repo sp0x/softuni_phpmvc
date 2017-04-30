@@ -16,7 +16,7 @@ class ProductAvailabilityRepository extends \Doctrine\ORM\EntityRepository
      * @param $product
      * @return null|\AppBundle\Entity\ProductAvailability
      */
-    public function get($product)
+    public function get(Product $product)
     {
         $qb = $this->createQueryBuilder('pa');
         $qb->where($qb->expr()->eq('pa.product', ':productId'))
@@ -25,6 +25,22 @@ class ProductAvailabilityRepository extends \Doctrine\ORM\EntityRepository
         return $validProductPromotions;
     }
 
+    /**
+     * @param Product $product
+     * @param $quantity
+     * @return mixed
+     */
+    public function set(Product $product, $quantity){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $q=$qb->update(ProductAvailability::class, 'p')
+            ->set('p.quantity', $qb->expr()->literal($quantity))
+            ->where($qb->expr()->eq('p.product', ':product'))
+            ->setParameter(':product', $product)
+            ->getQuery();
+        $item = $q->getSingleResult();
+        return $item;
+    }
     /**
      * @param Product $product
      * @param $availabilityCount

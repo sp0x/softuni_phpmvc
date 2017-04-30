@@ -47,8 +47,19 @@ class CartController extends Controller
      */
     public function checkoutAction()
     {
+        $cm = $this->get('app.cartmanager');
+        $pm = $this->get('app.productsmanager');
+        //Calculate the total with the best promotions
+        $cartResult = $cm->getMyCartWithPromotions($pm);
+        $cart = @$cartResult['cart'];
+        $total = @$cartResult['total'];
+        $success = false;
+        if($cart!=null){
+            $success = $cm->checkoutCartItems($cart, $pm);
+        }
         return $this->render('AppBundle:CartController:checkout.html.twig', array(
-            // ...
+            'items' => $cart,
+            'success' => $success
         ));
     }
 
