@@ -49,6 +49,22 @@ class CartItemRepository extends \Doctrine\ORM\EntityRepository
         return $item;
     }
 
+    public function removeByProduct(Product $product, User $user){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $q=$qb->update(CartItem::class, 'c')
+            ->set('c.isAvailable', $qb->expr()->literal(0))
+            ->andwhere($qb->expr()->eq('c.user', ':user'))
+            ->andWhere($qb->expr()->eq('c.status', ':status'))
+            ->andWhere($qb->expr()->eq('c.product', ':product'))
+            ->setParameter(':status', 'NONE')
+            ->setParameter(':user', $user)
+            ->setParameter(':product', $product)
+            ->getQuery();
+        $item = $q->getSingleResult();
+        return $item;
+    }
+
     public function getNonCheckedout(Product $product, User $user){
         $qb = $this->createQueryBuilder('c');
         $qb->where($qb->expr()->eq('c.isAvailable', ':availability'))

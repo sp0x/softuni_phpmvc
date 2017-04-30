@@ -31,21 +31,15 @@ class CartController extends Controller
     /**
      * @Route("/remove", name="cart_remove")
      */
-    public function removeProductAction()
+    public function removeProductAction(Request $request)
     {
-        return $this->render('AppBundle:CartController:remove_product.html.twig', array(
-            // ...
-        ));
-    }
-
-    /**
-     * @Route("/modify", name="cart_modify")
-     */
-    public function modifyProductAction()
-    {
-        return $this->render('AppBundle:CartController:modify_product.html.twig', array(
-            // ...
-        ));
+        $cartman = $this->get('app.cartmanager');
+        $success = $cartman->removeProductIdFromCart($request->get('id'));
+        $message = "Something went wrong, please try again later!";
+        if($success){
+            $message = "Your item was added";
+        }
+        return $this->redirectToRoute('mycart');
     }
 
     /**

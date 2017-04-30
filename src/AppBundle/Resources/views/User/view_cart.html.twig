@@ -19,14 +19,24 @@
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Price</th>
+                        <th>Discount %</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for cartItem in cart %}
-                        <tr class="row">
+                        <tr class="row" ng-init="addCartProduct({ cost: {{ cartItem.product.cost }}, quantity: {{ cartItem.quantity  }} })">
                             <td><a href="{{ path("product_show", {"id" : cartItem.product.id })}}">{{ cartItem.product.name }}</a></td>
                             <td>{{ cartItem.quantity }}</td>
                             <td>{{ cartItem.totalPrice }} {{ currency }}</td>
+                            <td>{% if cartItem.product.promotion %}{{ cartItem.product.promotion.discount }} %{% else %}{% endif %}</td>
+                            <td>
+                                <ul>
+                                    <li>
+                                        <a href="{{ path('cart_remove', { 'id': cartItem.product.id }) }}">Remove</a>
+                                    </li>
+                                </ul>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -9,6 +9,24 @@ app.controller('xCartGeneralController', function($scope, $compile, $templateCac
             remove : "/cart/remove"
         }
     };
+    $scope.cart = {
+        items : []
+    };
+
+    $scope.addCartProduct = function(product){
+        var price = product.cost;
+        product.getTotalCost = function(){
+
+            return 0.1;
+        };
+        self.cart.items.push(product);
+    };
+
+    $scope.getCartTotal = function(){
+
+    };
+
+
     $scope.setCartRoutes = function(routeTable){
         $scope.routes.cart = routeTable;
     };

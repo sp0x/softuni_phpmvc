@@ -63,6 +63,32 @@ class CartManager
     }
 
     /**
+     * @param $productId
+     * @return bool
+     */
+    public function removeProductIdFromCart($productId){
+        if(!is_numeric($productId)) return false;
+        $productId = (int)$productId;
+        $product = $this->products->getById($productId);
+        $user = $this->tokens->getToken()->getUser();
+        $this->cartItems->removeByProduct($product, $user);
+        return true;
+    }
+
+    /**
+     * @param $productId
+     * @return bool
+     */
+    public function checkoutCart($productId){
+        if(!is_numeric($productId)) return false;
+        $productId = (int)$productId;
+        $product = $this->products->getById($productId);
+        $user = $this->tokens->getToken()->getUser();
+        $this->cartItems->removeByProduct($product, $user);
+        return true;
+    }
+
+    /**
      * @return CartItem[]|null
      */
     public function getMycart(){

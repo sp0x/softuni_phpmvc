@@ -174,7 +174,6 @@ class CartItem
     public function setUser(\AppBundle\Entity\User $user = null)
     {
         $this->user = $user;
-
         return $this;
     }
 
