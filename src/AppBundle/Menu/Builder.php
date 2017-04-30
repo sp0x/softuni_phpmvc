@@ -64,6 +64,8 @@ class Builder implements ContainerAwareInterface
         }
         return $menu;
     }
+
+
     public function leftMenu(FactoryInterface $factory, array $options){
         $menu = $factory->createItem('root');
         $isLoggedIn = $this->isLoggedIn();
@@ -75,6 +77,7 @@ class Builder implements ContainerAwareInterface
             }
             if($user->isAdmin() || $user->isEditor()){
                 $menu->addChild('Categories', array('route' => 'category_list') );
+                $menu->addChild('Promotions', array('route' => 'promotion_index') );
             }
             $menu->addChild('Products', array('route' => 'product_index') );
         }

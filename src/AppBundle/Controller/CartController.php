@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class CartController
@@ -15,11 +17,15 @@ class CartController extends Controller
     /**
      * @Route("/add", name="cart_add")
      */
-    public function addProductAction()
+    public function addProductAction(Request $request)
     {
-        return $this->render('AppBundle:CartController:add_product.html.twig', array(
-            // ...
-        ));
+        $cartman = $this->get('app.cartmanager');
+        $success = $cartman->addProductIdToCart($request->get('id'));
+        $message = "Something went wrong, please try again later!";
+        if($success){
+            $message = "Your item was added";
+        }
+        return new JsonResponse(array('success' => $success, 'message' => $message));
     }
 
     /**

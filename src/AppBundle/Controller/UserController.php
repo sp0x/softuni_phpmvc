@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Intl\Intl;
 
 /**
  * User controller.
@@ -37,8 +38,24 @@ class UserController extends Controller
      */
     public function viewCartAction()
     {
+        $cm = $this->get('app.cartmanager');
+        $pm = $this->get('app.productsmanager');
+        $cart = $cm->getMycart();
+        $total = 0;
+        if($cart!=null){
+            foreach($cart as $k => $cartItem){
+                $product = $cartItem->getProduct();
+                $pm->applyAvailablePromotions($product);
+                $cartItem->setProduct($product);
+                $total += $cartItem->getTotalPrice();
+            }
+        }
+        $currency = Intl::getCurrencyBundle()->getCurrencySymbol('EUR');;
+
         return $this->render('AppBundle:User:view_cart.html.twig', array(
-            // ...
+            'cart' => $cart,
+            'total' => $total,
+            'currency' => $currency
         ));
     }
 

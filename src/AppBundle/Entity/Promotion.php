@@ -65,7 +65,7 @@ class Promotion
 
     /**
      * @var string
-     * @ORM\Column(name="criteria", type="text")
+     * @ORM\Column(name="criteria", type="text", nullable=true)
      */
     private $criteria;
 

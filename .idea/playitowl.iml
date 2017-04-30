@@ -209,6 +209,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="angular" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_FOLDERS">

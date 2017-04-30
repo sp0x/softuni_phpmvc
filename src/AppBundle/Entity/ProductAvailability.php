@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ProductAvailability
@@ -12,39 +13,56 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ProductAvailability
 {
+
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
+
+    /**
+     * @var Product
+     * @ORM\OneToOne(targetEntity="Product", inversedBy="availability")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     */
+    protected $product;
+
+    protected $formProductId;
 
     /**
      * @var int
      *
      * @ORM\Column(name="quantity", type="integer")
+     * @Assert\GreaterThan(-1)
+     *
      */
     private $quantity;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="product_id", type="integer")
-     */
-    private $productId;
-
-
-    /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getFormProductId()
+    {
+        return $this->formProductId;
+    }
+
+    /**
+     * @param mixed $formProductId
+     */
+    public function setFormProductId($formProductId)
+    {
+        $this->formProductId = $formProductId;
+    }
+
 
     /**
      * Set quantity
@@ -70,27 +88,17 @@ class ProductAvailability
         return $this->quantity;
     }
 
-    /**
-     * Set productId
-     *
-     * @param integer $productId
-     *
-     * @return ProductAvailability
-     */
-    public function setProductId($productId)
-    {
-        $this->productId = $productId;
 
-        return $this;
+    public function setProduct($product)
+    {
+        $this->product = $product;
     }
 
     /**
-     * Get productId
-     *
-     * @return int
+     * @return Product
      */
-    public function getProductId()
-    {
-        return $this->productId;
+    public function getProduct(){
+        return $this->product;
     }
+
 }

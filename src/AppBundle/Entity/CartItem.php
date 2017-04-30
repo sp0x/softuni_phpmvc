@@ -47,7 +47,7 @@ class CartItem
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="string", length=255)
+     * @ORM\Column(name="`status`", type="string", length=255)
      */
     private $status;
 
@@ -151,7 +151,6 @@ class CartItem
     public function setProduct(\AppBundle\Entity\Product $product = null)
     {
         $this->product = $product;
-
         return $this;
     }
 
@@ -187,5 +186,9 @@ class CartItem
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function getTotalPrice(){
+        return $this->product->getCost() * $this->quantity;
     }
 }

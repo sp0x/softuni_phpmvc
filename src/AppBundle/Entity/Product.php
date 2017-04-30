@@ -81,6 +81,11 @@ class Product
     private $category;
 
     /**
+     * @ORM\OneToOne(targetEntity="ProductAvailability", mappedBy="product")
+     */
+    private $availability;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
@@ -99,6 +104,26 @@ class Product
      */
     private $description;
 
+    private $initialQuantity;
+
+    /**
+     * @return mixed
+     */
+    public function getInitialQuantity()
+    {
+        return $this->initialQuantity;
+    }
+
+    /**
+     * @param mixed $initialQuantity
+     */
+    public function setInitialQuantity($initialQuantity)
+    {
+        $this->initialQuantity = $initialQuantity;
+    }
+
+
+
     /**
      * @return mixed
      */
@@ -113,6 +138,22 @@ class Product
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAvailability()
+    {
+        return $this->availability;
+    }
+
+    /**
+     * @param mixed $availability
+     */
+    public function setAvailability($availability)
+    {
+        $this->availability = $availability;
     }
 
 

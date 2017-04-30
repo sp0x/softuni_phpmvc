@@ -28,6 +28,17 @@ services:
     arguments:
       - AppBundle\Entity\ProductComment
 
+  repo.product_availability:
+    class: Doctrine\ORM\EntityRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+      - AppBundle\Entity\ProductAvailability
+
+  repo.cartitem:
+    class: Doctrine\ORM\EntityRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+      - AppBundle\Entity\CartItem
 
   app.slugger:
     class: AppBundle\Utils\Slugger
@@ -39,7 +50,10 @@ services:
     arguments: ['@request_stack']
   app.productsmanager:
     class: AppBundle\Services\ProductsManager
-    arguments: [ "@repo.products", "@repo.promotions", "@repo.categories", "@security.token_storage"]
+    arguments: [ "@repo.products", "@repo.promotions", "@repo.categories", "@repo.product_availability", "@security.token_storage"]
+  app.cartmanager:
+    class: AppBundle\Services\CartManager
+    arguments: [ "@repo.products", "@repo.promotions", "@repo.categories", "@repo.product_availability", "@repo.cartitem", "@security.token_storage"]
 
     #service_name:
     #    class: AppBundle\Directory\ClassName

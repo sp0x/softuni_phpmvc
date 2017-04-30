@@ -3,6 +3,8 @@
 {% block title %}
     xCart: Category {{ category.name }}
 {% endblock %}
+
+
 {% block stylesheets %}
     {% stylesheets '@AppBundle/Resources/public/stylesheets/*' filter='cssrewrite' %}
     <link rel="stylesheet" href="{{ asset_url }}" />

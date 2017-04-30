@@ -24,6 +24,18 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * @param $id
+     * @return null|\AppBundle\Entity\Product
+     */
+    public function getById($id){
+        $qb = $this->createQueryBuilder('p');
+        $qb->where($qb->expr()->eq('p.id' , ':idParam'))
+            ->setParameter(':idParam', $id);
+        $product = $qb->getQuery()->getOneOrNullResult();
+        return $product;
+    }
+
+    /**
      * @param $categoryId
      * @return array
      */

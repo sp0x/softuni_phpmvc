@@ -19,7 +19,7 @@
     <body>
         {% include '::navbar.html.twig' %}
         <div class="container-fluid">
-            <div class="container">
+            <div class="container" ng-app="app" ng-controller="xCartGeneralController">
                 {% if app.session.flashBag.has('success') %}
                     <ul style="color: green">
                         {% for message in app.session.flashBag.get('success') %}
@@ -37,11 +37,12 @@
                 {% endif %}
 
                 {% block body %}{% endblock %}
+
             </div>
         </div>
         <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
-
-
+        <script src="{{ asset('js/angular.js') }}"></script>
+        <script src="{{ asset('js/xCartGeneralController.js') }}"></script>
         <script src="{{ asset('js/jquery.js') }}"></script>
         <!-- Include all JavaScripts, compiled by Assetic -->
         <script src="{{ asset('js/bootstrap.js') }}"></script>

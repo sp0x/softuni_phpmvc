@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use AppBundle\Entity\Product;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Category
@@ -27,6 +29,8 @@ class Category
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(max="255")
      */
     private $name;
 
@@ -107,12 +111,15 @@ class Category
      */
     public function getProducts()
     {
-        $iterator = $this->products->getIterator();
+        //This is written here because getProducts is used in multiple places, so there`s no service in use yet
+        $products = $this->products->filter(function($product){
+           return $product->getIsAvailable();
+        });
+        $iterator = $products->getIterator();
         $iterator->uasort(function ($a, $b) {
             return ($a->getOrder() < $b->getOrder()) ? -1 : 1;
         });
         $collection = new ArrayCollection(iterator_to_array($iterator));
-
         return $collection;
     }
 

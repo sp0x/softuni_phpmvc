@@ -9,9 +9,11 @@
 namespace AppBundle\Services;
 
 
+use AppBundle\Entity\CartItem;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductAvailability;
+use AppBundle\Repository\CartItemRepository;
 use AppBundle\Repository\CategoryRepository;
 use AppBundle\Repository\ProductAvailabilityRepository;
 use AppBundle\Repository\ProductRepository;
@@ -20,7 +22,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-class ProductsManager
+class CartManager
 {
     /**
      * @var ProductRepository
@@ -33,16 +35,44 @@ class ProductsManager
      * @var ProductAvailabilityRepository
      */
     protected $availabilities;
+    /**
+     * @var CartItemRepository
+     */
+    protected $cartItems;
+
 
     public function __construct(ProductRepository $repo, PromotionRepository $promotionRepo, CategoryRepository $categories,
-                                ProductAvailabilityRepository $availabilityRepo, TokenStorage $tokenStore)
+                                ProductAvailabilityRepository $availabilityRepo, CartItemRepository $cartRepo,
+                                TokenStorage $tokenStore)
     {
         $this->products = $repo;
         $this->promotions = $promotionRepo;
         $this->tokens = $tokenStore;
         $this->categories = $categories;
         $this->availabilities = $availabilityRepo;
+        $this->cartItems = $cartRepo;
     }
+
+    public function addProductIdToCart($productId){
+        if(!is_numeric($productId)) return false;
+        $productId = (int)$productId;
+        $product = $this->products->getById($productId);
+        $user = $this->tokens->getToken()->getUser();
+        $newCartItem = $this->cartItems->addIfNotExisting($product, $user);
+        return true;
+    }
+
+    /**
+     * @return CartItem[]|null
+     */
+    public function getMycart(){
+        $user = $this->tokens->getToken()->getUser();
+        $cartItems = $this->cartItems->getCurrentItemsByUser($user);
+        return $cartItems;
+    }
+
+
+
 
     public function getAvailability(Product $product){
         $availability = $this->availabilities->get($product);

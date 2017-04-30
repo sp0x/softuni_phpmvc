@@ -1,6 +1,9 @@
 <?php
 
 namespace AppBundle\Repository;
+use \AppBundle\Entity\CartItem;
+use \AppBundle\Entity\Product;
+use \AppBundle\Entity\User;
 
 /**
  * CartItemRepository
@@ -10,4 +13,58 @@ namespace AppBundle\Repository;
  */
 class CartItemRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * @param Product $product
+     * @param User $user
+     * @param int $quantity
+     * @return CartItem
+     */
+    public function addIfNotExisting(Product $product, User $user, $quantity = 1){
+        $citem = new CartItem();
+        $citem->setQuantity($quantity);
+        $citem->setProduct($product);
+        $citem->setIsAvailable(true);
+        $citem->setStatus('NONE');
+        $citem->setUser($user);
+        $em = $this->getEntityManager();
+        $em->persist($citem);
+        $em->flush();
+        return $citem;
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function getCurrentItemsByUser(User $user){
+        $qb = $this->createQueryBuilder('c');
+        $qb->where($qb->expr()->eq('c.isAvailable', ':availability'))
+            ->andwhere($qb->expr()->eq('c.user', ':user'))
+            ->andWhere($qb->expr()->eq('c.status', ':status'))
+            ->setParameter(':availability', true)
+            ->setParameter(':status', 'NONE')
+            ->setParameter(':user', $user);
+        $item = $qb->getQuery()->getResult();
+        return $item;
+    }
+
+    public function getNonCheckedout(Product $product, User $user){
+        $qb = $this->createQueryBuilder('c');
+        $qb->where($qb->expr()->eq('c.isAvailable', ':availability'))
+            ->andwhere($qb->expr()->eq('c.user', ':user'))
+            ->andWhere($qb->expr()->eq('c.status', ':status'))
+            ->andWhere($qb->expr()->eq('c.product', ':product'))
+            ->setParameter(':availability', true)
+            ->setParameter(':status', 'NONE')
+            ->setParameter(':user', $user)
+            ->setParameter(':product', $product);
+        $item = $qb->getQuery()->getOneOrNullResult();
+        return $item;
+    }
+
+    public function itemExists(Product $product, User $user){
+        return $this->getNonCheckedout($product, $user)!=null;
+    }
+
 }

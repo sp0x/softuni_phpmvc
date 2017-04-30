@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Product;
+use AppBundle\Entity\ProductAvailability;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -31,9 +32,7 @@ class ProductController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $products = $em->getRepository('AppBundle:Product')->findAll();
-
         return $this->render('product/index.html.twig', array(
             'products' => $products,
         ));
@@ -76,6 +75,11 @@ class ProductController extends Controller
 
                 $this->get('session')->getFlashBag()->add('success', 'Product was created successfully!');
 
+                $initialQuantity = $product->getInitialQuantity();
+                if($initialQuantity !=null){
+                    $this->get('app.productsmanager')->newProductAvailability($product, $initialQuantity);
+                }
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($product);
                 $em->flush();
@@ -101,15 +105,17 @@ class ProductController extends Controller
     public function showAction(Product $product)
     {
         $deleteForm = $this->createDeleteForm($product);
-        $currency = Intl::getCurrencyBundle()->getCurrencyName('EUR');
+        $currency = Intl::getCurrencyBundle()->getCurrencySymbol('EUR');
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         // Example with parameter injected into translation "user.profile"
         $categoryUrl = $this->get('router')->generate('category_products', array('id' => $product->getCategory()->getId()));
+        $pm = $this->get('app.productsmanager');
+
         $breadcrumbs->addItem($product->getCategory()->getName(), $categoryUrl);
         $breadcrumbs->addItem($product->getName());
 
-// => 'Indian Rupee'
         return $this->render('product/show.html.twig', array(
+            'availability' => $pm->getAvailability($product),
             'product' => $product,
             'currency' => $currency,
             'delete_form' => $deleteForm->createView(),
@@ -121,11 +127,77 @@ class ProductController extends Controller
      * @Route("/promote/{id}", name="product_promote")
      * @Security("has_role('ROLE_EDITOR')")
      * @Method("GET")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function productPromoteAction(Product $product){
-        $this->redirectToRoute("promotion_new", [
+        return $this->redirectToRoute("promotion_new", [
             'product_id' => $product->getId()
         ]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @Security("has_role('ROLE_EDITOR')")
+     * @Route("/quantity/set/{id}", name="product_set_quantity")
+     * @Method({"GET", "POST"})
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function setQuantityAction(Request $request, Product $product){
+        $availability = new ProductAvailability();
+        $em = $this->getDoctrine()->getManager();
+        $storedAvailability = $em->getRepository(ProductAvailability::class)->findOneBy(['product'=> $product]);
+
+        $availabilityForm = $this->createForm('AppBundle\Form\ProductAvailabilityType', $availability);
+        $availabilityForm->handleRequest($request);
+
+        $pm = $this->get('app.productsmanager');
+        if ($availabilityForm->isSubmitted() && $availabilityForm->isValid()) {
+            $storedAvailability->setQuantity($availability->getQuantity());
+            $em->flush();
+
+            $this->addFlash('success',  'Product was updated successfully!');
+            return $this->redirectToRoute('product_index');
+        }else if(!$availabilityForm->isSubmitted()){
+            $availabilityForm->get('quantity')->setData($pm->getAvailability($product));
+
+        }
+
+        return $this->render('product/availability.html.twig', array(
+            'product' => $product,
+            'edit_form' => $availabilityForm->createView(),
+        ));
+    }
+
+
+    /**
+     * @param Request $request
+     * @Security("has_role('ROLE_EDITOR')")
+     * @Route("/quantity/define/{id}", name="product_define_quantity")
+     * @Method({"GET", "POST"})
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function defineQuantityAction(Request $request, Product $product){
+        $availability = new ProductAvailability();
+        $availabilityForm = $this->createForm('AppBundle\Form\ProductAvailabilityType', $availability);
+        $availabilityForm->handleRequest($request);
+
+        $pm = $this->get('app.productsmanager');
+        if ($availabilityForm->isSubmitted() && $availabilityForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $availability->setProduct($product);
+            $em->persist($availability);
+            $em->flush();
+
+            return $this->redirectToRoute('product_index');
+        }else if(!$availabilityForm->isSubmitted()){
+            $availabilityForm->get('formProductId')->setData($product->getId());
+        }
+
+        return $this->render('product/availability.html.twig', array(
+            'availability' => $availability,
+            'edit_form' => $availabilityForm->createView(),
+        ));
     }
 
     /**

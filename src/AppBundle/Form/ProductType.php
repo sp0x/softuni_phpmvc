@@ -28,6 +28,9 @@ class ProductType extends AbstractType
         $builder->add('name', TextType::class)
             ->add('cost', MoneyType::class)
             ->add('order', IntegerType::class)
+            ->add('initialQuantity', IntegerType::class, [
+                'required' => false
+            ])
             ->add('isAvailable')
             ->add('description', TextareaType::class)
             ->add('image_form', FileType::class,  [
@@ -37,10 +40,6 @@ class ProductType extends AbstractType
             ->add('category', EntityType::class ,[
                 'class' => Category::class,
                 'choice_label' => 'name'
-//                'queryBuilder' => function(EntityRepository $er){
-//                    return $er->createQueryBuilder('q')
-//                        ->orderBy('q.name', 'ASC');
-//                }
             ]);
     }
     

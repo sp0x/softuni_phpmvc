@@ -2,12 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Product;
 use AppBundle\Entity\Promotion;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Promotion controller.
@@ -37,7 +39,7 @@ class PromotionController extends Controller
     /**
      * Creates a new promotion entity.
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/new", name="promotion_new")
+     * @Route("/new/{product_id}", name="promotion_new", defaults={ "product_id" = null} )
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -45,15 +47,22 @@ class PromotionController extends Controller
         $promotion = new Promotion();
         $form = $this->createForm('AppBundle\Form\PromotionType', $promotion);
         $form->handleRequest($request);
-        $productId = $request->get('product_id');
-        dump($productId);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($promotion);
             $em->flush();
+            $this->addFlash('success',  'Promotion was created successfully!');
 
             return $this->redirectToRoute('promotion_show', array('id' => $promotion->getId()));
+        } else if(!$form->isSubmitted()){
+            $productId = $request->get('product_id');
+            if($productId){
+                $form->get('productId')->setData($productId);
+            }
+            $form->get('start')->setData(new \DateTime());
+            $form->get('ends')->setData(new \DateTime('+1 day'));
         }
 
         return $this->render('promotion/new.html.twig', array(
@@ -92,7 +101,7 @@ class PromotionController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success',  'Promotion was updated successfully!');
             return $this->redirectToRoute('promotion_edit', array('id' => $promotion->getId()));
         }
 
@@ -118,6 +127,7 @@ class PromotionController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($promotion);
             $em->flush();
+            $this->addFlash('success',  'Promotion was deleted successfully!');
         }
 
         return $this->redirectToRoute('promotion_index');

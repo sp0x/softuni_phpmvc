@@ -19,15 +19,15 @@ class PromotionRepository extends \Doctrine\ORM\EntityRepository
     public function getProductPromotions($product)
     {
         $qb = $this->createQueryBuilder('promo');
-        $now = new \DateTime();
         $qb->where($qb->expr()->orX(
                 $qb->expr()->eq('promo.productId', ':productId'),
-                $qb->expr()->eq('promo.isGeneral', true).
+                $qb->expr()->eq('promo.isGeneral', ':isGeneral'),
                 $qb->expr()->eq('promo.categoryId', ':categoryId')
             ))
             ->andWhere('promo.start >= :timeNow')
             ->andWhere('promo.ends < :timeNow')
             ->setParameter(':productId', $product->getId())
+            ->setParameter(':isGeneral', true)
             ->setParameter(':categoryId', $product->getCategory()->getId())
             ->setParameter(':timeNow', new \DateTime() , Type::DATETIME);
         $validProductPromotions = $qb->getQuery()->getOneOrNullResult();

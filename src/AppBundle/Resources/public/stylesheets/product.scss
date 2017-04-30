@@ -11,20 +11,34 @@
   margin-bottom:10px;
 }
 
+.productActionPanel{
+  li{
+    margin-bottom:20px;
+    position:relative;
+  }
+  #buttonAddToCart{
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
 a{
   text-decoration:none !important;
   &:hover{
     text-decoration: none !important;
   }
 }
-
+.commentbox{
+  border-top: #dadada 1px solid;
+  margin-top:20px;
+}
 
 .product{
   &.mainImage{
-    height: 140px;
     width: 100%;
-    display: block;
   }
+
   &.productCover{
     position: relative;
     width: 160px;

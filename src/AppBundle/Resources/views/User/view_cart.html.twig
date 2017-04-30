@@ -2,6 +2,43 @@
 
 {% block title %}My cart{% endblock %}
 
-{% block content %}
+{% block stylesheets %}
+    {% stylesheets '@AppBundle/Resources/public/stylesheets/*' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 
+
+{% block body %}
+<div>
+    {% if cart|length > 0 %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr class="row">
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cartItem in cart %}
+                        <tr class="row">
+                            <td><a href="{{ path("product_show", {"id" : cartItem.product.id })}}">{{ cartItem.product.name }}</a></td>
+                            <td>{{ cartItem.quantity }}</td>
+                            <td>{{ cartItem.totalPrice }} {{ currency }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p>Total: <b>{{ total }} {{ currency }}</b></p>
+        </div>
+        <div>
+            <a class="btn btn-primary" style="font-size: 25px" href="{{ path("cart_checkout") }}">Checkout</a>
+        </div>
+    {% else %}
+        <h2>You don`t have any items in your cart!</h2>
+    {% endif %}
+
+</div>
 {% endblock %}
