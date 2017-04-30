@@ -58,7 +58,7 @@ services:
     arguments: ['@request_stack']
   app.productsmanager:
     class: AppBundle\Services\ProductsManager
-    arguments: [ "@repo.products", "@repo.promotions", "@repo.categories", "@repo.product_availability", "@security.token_storage"]
+    arguments: [ "@repo.products", "@repo.promotions", "@repo.categories", "@repo.product_availability", "@repo.comments", "@security.token_storage"]
   app.cartmanager:
     class: AppBundle\Services\CartManager
     arguments: [ "@repo.products", "@repo.promotions", "@repo.categories", "@repo.product_availability", "@repo.cartitem", "@repo.sale", "@security.token_storage"]

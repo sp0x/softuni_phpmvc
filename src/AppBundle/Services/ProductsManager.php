@@ -13,8 +13,10 @@ use AppBundle\Entity\Category;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductAvailability;
 use AppBundle\Entity\Promotion;
+use AppBundle\Entity\User;
 use AppBundle\Repository\CategoryRepository;
 use AppBundle\Repository\ProductAvailabilityRepository;
+use AppBundle\Repository\ProductCommentRepository;
 use AppBundle\Repository\ProductRepository;
 use AppBundle\Repository\PromotionRepository;
 use Doctrine\ORM\EntityManager;
@@ -34,15 +36,21 @@ class ProductsManager
      * @var ProductAvailabilityRepository
      */
     protected $availabilities;
+    /**
+     * @var ProductCommentRepository
+     */
+    protected $comments;
 
     public function __construct(ProductRepository $repo, PromotionRepository $promotionRepo, CategoryRepository $categories,
-                                ProductAvailabilityRepository $availabilityRepo, TokenStorage $tokenStore)
+                                ProductAvailabilityRepository $availabilityRepo, ProductCommentRepository $commentsRepo,
+                                TokenStorage $tokenStore)
     {
         $this->products = $repo;
         $this->promotions = $promotionRepo;
         $this->tokens = $tokenStore;
         $this->categories = $categories;
         $this->availabilities = $availabilityRepo;
+        $this->comments = $commentsRepo;
     }
 
     public function getAvailability(Product $product){
@@ -94,6 +102,13 @@ class ProductsManager
         return $this->products->getByCategory($category->getId());
     }
 
+    public function addComment(Product $product, $comment, User $user){
+        $comment = $this->comments->create($product, $comment, $user);
+        return true;
+    }
+
+
+
     public function putOnPromotion(Product $product){
 
     }
@@ -101,11 +116,14 @@ class ProductsManager
     /**
      * Applies the best available promotion to the product
      * @param Product $product
+     * @param null $discount
+     * @internal param int|null $amount
      */
-    public function applyAvailablePromotions(Product &$product){
+    public function applyAvailablePromotions(Product &$product, &$discount=null){
         $bestPromotion = $this->getBestPromotion($product);
         if($bestPromotion!=null){
             $product->setPromotion($bestPromotion);
+            $discount= $bestPromotion->getDiscount();
         }
     }
 

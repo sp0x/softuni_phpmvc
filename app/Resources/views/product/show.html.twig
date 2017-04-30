@@ -22,7 +22,7 @@
             <ul>
                 <li>
                     <div class="row">
-                        <span class="col-md-8">Cost: {{ product.cost }} {{ currency }}</span>
+                        <span class="col-md-8">Cost: {{ product.cost }} {{ currency }}{% if discount %} <span style="color: red">%{{ discount }} off!</span>{% endif %}</span>
                         <span class="col-md-4">Posted: {{ product.createdOn|date('Y-m-d H:i:s') }}</span>
                     </div>
                 </li>
@@ -67,19 +67,22 @@
                     </p>
                     <div>
                         {% for comment in product.comments %}
-                            <div>
-                                <div><span>From: {{ comment.author.username }}</span><span></span></div>
-                                <div>{{ comment.content }}</div>
+                            <div class="product-comment">
+                                <div class="author"><span>From: <b>{{ comment.author.username }}</b></span>
+                                    <span class="comment-time">On {{ comment.createdOn|date('Y-m-d H:i:s') }}</span></div>
+                                <div class="content">{{ comment.content }}</div>
                             </div>
                         {% endfor %}
-                        <div class="commentbox">
-                            <b>Post a comment</b>
-                            <div>
-                                <textarea rows="10" cols="60" id="comment" name="comment" class="form-control col-md-8" placeholder="Anything you want to say"></textarea>
+                        <form action="{{ path('product_post_comment', { "id" : product.id}) }}"  method="POST">
+                            <div class="commentbox">
+                                <b>Post a comment</b>
+                                <div>
+                                    <textarea rows="10" cols="60" id="comment" name="comment" class="form-control col-md-8" placeholder="Anything you want to say"></textarea>
+                                </div>
+                                <input type="hidden" name="productId" value="{{ product.id }}">
+                                <input class="btn btn-default" type='submit' value='Post' />
                             </div>
-                            <input type="hidden" name="productId" value="{{ product.id }}">
-                            <input class="btn btn-default" type='submit' value='Post' />
-                        </div>
+                        </form>
                     </div>
                 </li>
             </ul>

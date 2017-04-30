@@ -9,6 +9,13 @@
   margin-right: 10px;
   margin-bottom: 10px; }
 
+.product-comment {
+  margin-bottom: 20px; }
+  .product-comment .content {
+    background: #dff0d8;
+    border-radius: 5px;
+    padding: 12px; }
+
 .productActionPanel li {
   margin-bottom: 20px;
   position: relative; }

@@ -14,6 +14,7 @@ use AppBundle\Entity\Category;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductAvailability;
 use AppBundle\Entity\Sale;
+use AppBundle\Entity\User;
 use AppBundle\Repository\CartItemRepository;
 use AppBundle\Repository\CategoryRepository;
 use AppBundle\Repository\ProductAvailabilityRepository;
@@ -85,23 +86,30 @@ class CartManager
      * @param null $purchaseId
      * @return bool
      */
-    public function checkoutCartItems($cartItems, ProductsManager $productsManager, &$purchaseId=null){
+    public function checkoutCartItems($cartItems, $totalCost, ProductsManager $productsManager, &$purchaseId=null){
         if($cartItems==null || count($cartItems) ==0) return false;
         //checkout cart
+        /** @var User $user */
         $user = $this->tokens->getToken()->getUser();
         $purchaseGuid = $this->GUIDv4();
-        foreach($cartItems as $cartItem){
-            $cartItem->setUser($user);
-            if($cartItem->getQuantity()===null){
-                $cartItem->setQuantity(0);
-            }
-            $sale = $this->checkoutCart($cartItem, $purchaseGuid, $productsManager);
+        $leftover = (int)$user->getCash() - (int)$totalCost;
+        if($leftover<0){
+            return false;
+        }else{
+            foreach($cartItems as $cartItem){
+                $cartItem->setUser($user);
+                if($cartItem->getQuantity()===null){
+                    $cartItem->setQuantity(0);
+                }
+                $sale = $this->checkoutCart($cartItem, $purchaseGuid, $productsManager);
 
-            //If the sale went alright, mark our checkout item as inactive and checked out
-            if($sale!=null){
-                $this->cartItems->updateStatus($cartItem, "CHECKED_OUT", true);
+                //If the sale went alright, mark our checkout item as inactive and checked out
+                if($sale!=null){
+                    $this->cartItems->updateStatus($cartItem, "CHECKED_OUT", true);
+                }
             }
         }
+
         return true;
     }
 

@@ -13,6 +13,7 @@ use AppBundle\Entity\User;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\Intl\Intl;
 
 class Builder implements ContainerAwareInterface
 {
@@ -48,10 +49,12 @@ class Builder implements ContainerAwareInterface
         $menu = $factory->createItem('root');
         //If the user is logged
         if($this->isLoggedIn()){
+            $currency = Intl::getCurrencyBundle()->getCurrencySymbol('EUR');
             $user = $this->getUser();
             $menu->addChild('My Cart' , array('route' => 'mycart'));
             $menu->addChild($user->getUsername() , array('route' => 'user_current'));
-            $menu[$user->getUsername()]->addChild("Credit: {$user->getCash()}", array('route'=>'mycart'));
+            $menu->addChild("Credit: {$user->getCash()} {$currency}", array('route'=> 'mycart'));
+                //$menu[$user->getUsername()]->addChild("Credit: {$user->getCash()}", array('route'=>'mycart'));
             $menu[$user->getUsername()]->addChild('Logout', array('route' => 'logout'));
 
         }else{

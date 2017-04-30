@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -54,8 +55,17 @@ class CartController extends Controller
         $cart = @$cartResult['cart'];
         $total = @$cartResult['total'];
         $success = false;
+        /** @var User $user */
+        $user = $this->getUser();
         if($cart!=null){
-            $success = $cm->checkoutCartItems($cart, $pm);
+            $success = $cm->checkoutCartItems($cart, $total, $pm);
+            if($success){
+                $em = $this->getDoctrine()->getManager();
+                $leftover = $user->getCash() - $total;
+                $user->setCash($leftover);
+                $em->persist($user);
+                $em->flush();
+            }
         }
         return $this->render('AppBundle:CartController:checkout.html.twig', array(
             'items' => $cart,

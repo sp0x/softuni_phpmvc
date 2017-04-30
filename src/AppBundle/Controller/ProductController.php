@@ -95,6 +95,23 @@ class ProductController extends Controller
     }
 
     /**
+     * @Route("/product/{id}/comment", name="product_post_comment")
+     * @Method("POST")
+     * @param Request $request
+     * @param Product $product
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function postCommentAction(Request $request, Product $product){
+        $comment = $request->get('comment');
+        if($product!=null){
+            $pm = $this->get('app.productsmanager');
+            $pm->addComment($product, $comment, $this->getUser());
+            return $this->redirectToRoute('product_show', [ 'id' => $product->getId()]);
+        }
+    }
+
+    /**
      * Finds and displays a product entity.
      *
      * @Route("/{id}", name="product_show")
@@ -114,8 +131,11 @@ class ProductController extends Controller
         $breadcrumbs->addItem($product->getCategory()->getName(), $categoryUrl);
         $breadcrumbs->addItem($product->getName());
 
+        $pm->applyAvailablePromotions($product, $discount);
+
         return $this->render('product/show.html.twig', array(
             'availability' => $pm->getAvailability($product),
+            'discount' => $discount,
             'product' => $product,
             'currency' => $currency,
             'delete_form' => $deleteForm->createView(),

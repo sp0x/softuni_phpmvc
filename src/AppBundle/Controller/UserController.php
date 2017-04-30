@@ -44,7 +44,7 @@ class UserController extends Controller
         $cart = @$cartResult['cart'];
         $total = @$cartResult['total'];
 
-        $currency = Intl::getCurrencyBundle()->getCurrencySymbol('EUR');;
+        $currency = Intl::getCurrencyBundle()->getCurrencySymbol('EUR');
 
         return $this->render('AppBundle:User:view_cart.html.twig', array(
             'cart' => $cart,

@@ -1,6 +1,9 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Product;
+use AppBundle\Entity\ProductComment;
+use AppBundle\Entity\User;
 
 /**
  * ProductCommentRepository
@@ -10,4 +13,17 @@ namespace AppBundle\Repository;
  */
 class ProductCommentRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function create(Product $product, $comment, User $user)
+    {
+        $newComment = new ProductComment();
+        $newComment->setCreatedOn(new \DateTime());
+        $newComment->setAuthor($user);
+        $newComment->setContent($comment);
+        $newComment->setProduct($product);
+        $em = $this->getEntityManager();
+        $em->persist($newComment);
+        $em->flush();
+        return $newComment;
+    }
 }
