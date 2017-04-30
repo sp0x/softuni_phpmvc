@@ -60,6 +60,7 @@ twig:
     strict_variables: '%kernel.debug%'
     globals:
       app_cartmanager: '@app.cartmanager'
+      app_products_manager: '@app.productsmanager'
 
 # Doctrine Configuration
 doctrine:

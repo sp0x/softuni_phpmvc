@@ -37,9 +37,17 @@ a {
   width: 100%; }
 .product.productCover {
   position: relative;
-  width: 160px;
-  height: 160px;
-  display: inline-block; }
+  width: 200px;
+  height: 185px;
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background: #ececec;
+  border-radius: 2px; }
+  .product.productCover .product-mini-wrap {
+    text-align: center; }
+    .product.productCover .product-mini-wrap img {
+      vertical-align: inherit; }
 .product.miniImage {
   max-height: 160px; }
 .product.infoStrip {

@@ -34,8 +34,19 @@ class PromotionRepository extends \Doctrine\ORM\EntityRepository
             ->setMaxResults(1)
             ->orderBy('promo.discount', 'DESC');
         $promotion = $qb->getQuery()->getOneOrNullResult();
-
         return $promotion;
+    }
+
+    /**
+     * @return Promotion[]
+     */
+    public function getAvailablePromotions(){
+        $qb = $this->createQueryBuilder('promo');
+        $qb->where('promo.start <= :timeNow')
+            ->andWhere('promo.ends > :timeNow')
+            ->setParameter(':timeNow', new \DateTime() , Type::DATETIME);
+        $promos = $qb->getQuery()->getResult();
+        return $promos;
     }
 
     /**

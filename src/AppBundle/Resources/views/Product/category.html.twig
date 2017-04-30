@@ -2,13 +2,15 @@
     <p style="font-size: 20px">{{ category.name }}</p>
     <div class="categoryItemsContainer row">
         {% for product in category.getProducts() %}
+            {% set discountObject = app_products_manager.applyStaticDiscounts(product) %}
+
             <div onclick="window.location='{{ path("product_show", {"id": product.id} ) }}'" class="product productCover">
-               <a href="{{ path("product_show", {"id": product.id} ) }}">
+               <div class="product-mini-wrap">
                    <img class="product miniImage" src="/images/product/{{ product.image }}">
                    <div class="infoStrip">
-                       {{ product.name }} | {{ product.getCost() }} {{ currency }}
+                       {{ product.name }} | {{ attribute(discountObject, 'product').getCost() }} {{ currency }}
                    </div>
-               </a>
+               </div>
             </div>
         {% endfor %}
     </div>

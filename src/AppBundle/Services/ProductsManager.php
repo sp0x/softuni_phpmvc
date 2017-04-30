@@ -29,8 +29,17 @@ class ProductsManager
      * @var ProductRepository
      */
     protected $products;
+    /**
+     * @var PromotionRepository
+     */
     protected $promotions;
+    /**
+     * @var TokenStorage
+     */
     protected $tokens;
+    /**
+     * @var CategoryRepository
+     */
     protected $categories;
     /**
      * @var ProductAvailabilityRepository
@@ -40,6 +49,10 @@ class ProductsManager
      * @var ProductCommentRepository
      */
     protected $comments;
+    /**
+     * @var Promotion[]
+     */
+    protected $loadedPromotions;
 
     public function __construct(ProductRepository $repo, PromotionRepository $promotionRepo, CategoryRepository $categories,
                                 ProductAvailabilityRepository $availabilityRepo, ProductCommentRepository $commentsRepo,
@@ -128,49 +141,55 @@ class ProductsManager
     }
 
     /**
+     * checks if the promotions are loaded
+     */
+    private function checkPromotions(){
+        if($this->loadedPromotions!=null) return;
+        $this->loadedPromotions = $this->promotions->getAvailablePromotions();
+    }
+
+    /**
+     * @param Product $product
+     * @return array [ product => Product, discount => Discount]
+     */
+    public function applyStaticDiscounts(Product $product){
+        $this->checkPromotions();
+        $productQualified = $this->getQualifiedPromotions($product, $this->loadedPromotions);
+        $maxDiscount = -1;
+        $biggestPromotion = null;
+        for ($i = 0; $i < count($productQualified); $i++) {
+            /** @var Promotion $p */
+            $p = $productQualified[$i];
+            if ($p->getDiscount() > $maxDiscount) {
+                $maxDiscount = $p->getDiscount();
+                $biggestPromotion = $p;
+            }
+        }
+        $discount = 0;
+        if($biggestPromotion!=null){
+            $product->setPromotion($biggestPromotion);
+            $discount= $biggestPromotion->getDiscount();
+        }
+        return [
+            'product' => $product,
+            'discount' => $discount
+        ];
+    }
+
+    /**
      * @param Product $product
      * @return Promotion|null
      */
-    protected function getBestPromotion(Product $product)
-    {
+    protected function getBestPromotion(Product $product)    {
         $productPromotion = $this->promotions->getProductPromotion($product);
         $allSpecialPromotions = $this->promotions->getSpecialPromotions();
-        $qualifiedSpecialPomotions = [];
-        $user = $this->tokens->getToken()->getUser();
-        //Qualify the normal promotions and the user promotions
-        foreach ($allSpecialPromotions as $specialPromotion) {
-            $criterion = $specialPromotion->getCriteria();
-            $role = $user->getRole();
-            $valid = false;
-            if ($criterion == "USER_IS_ADMIN") {
-                if ($role == "ROLE_ADMIN") {
-                    $valid = true;
-                }
-            } else if ($criterion == "USER_REGISTERED_1D") {
-                $registeredOn = $user->getCreatedOn();
-                $now = new \DateTime();
-                $diff = $now->diff($registeredOn);
-                $days = $diff->format('%R%a');
-                $days = ltrim($days, '+');
-                $days = (int)$days;
-                if ($days > 1) {
-                    $valid = true;
-                }
-            } else if ($criterion == "USER_CREDIT_100") {
-                $userCredit = $user->getCash();
-                if ($userCredit > 100) {
-                    $valid = true;
-                }
-            }
-            if ($valid) {
-                $qualifiedSpecialPomotions[] = $specialPromotion;
-            }
-        }
+        $qualifiedSpecialPromotions = $this->getQualifiedCriterionPromotions($allSpecialPromotions);
+
         if($productPromotion==null) $productPromotion = [];
         else{
             $productPromotion = [$productPromotion];
         }
-        $allPromotionsClassified = array_merge($productPromotion, $qualifiedSpecialPomotions);
+        $allPromotionsClassified = array_merge($productPromotion, $qualifiedSpecialPromotions);
         $maxDiscount = -1;
         $biggestPromotion = null;
         for ($i = 0; $i < count($allPromotionsClassified); $i++) {
@@ -183,6 +202,95 @@ class ProductsManager
         }
 
         return $biggestPromotion;
+    }
+
+    /**
+     * Gets all promotions that qualify for the given product or match a criteria
+     * @param Product $product
+     * @param Promotion[] $promotions
+     * @return Promotion[]
+     */
+    public function getQualifiedPromotions(Product $product, $promotions){
+        $qualifiedPromos = [];
+        $user = $this->tokens->getToken()->getUser();
+        foreach($promotions as $promotion){
+            $valid = false;
+            $promoProduct = $promotion->getProduct();
+            if($promoProduct !==null && $promoProduct->getId() === $product->getId()){
+                $valid = true;
+            }else if($promotion->getIsGeneral()){
+                $valid = true;
+            }else if($promotion->getCategory()!=null && $promotion->getCategory()->getId() === $product->getCategory()->getId()){
+                $valid = true;
+            }else if($promotion->getCriteria()!==null){
+                $criterion = $promotion->getCriteria();
+                $valid = $this->promotionMatchesCriteria($criterion, $user);
+            }
+
+            if($valid){
+                $qualifiedPromos[] = $promotion;
+            }
+        }
+        return $qualifiedPromos;
+    }
+
+    /**
+     * Gets all the promotions from the array which qualify for the current user.
+     * Use this to filter promotions with criterias
+     * @param $allSpecialPromotions
+     * @return array
+     */
+    protected function getQualifiedCriterionPromotions($allSpecialPromotions)
+    {
+        $qualifiedSpecialPomotions = [];
+        $user = $this->tokens->getToken()->getUser();
+        //Qualify the normal promotions and the user promotions
+        /** @var Promotion $specialPromotion */
+        foreach ($allSpecialPromotions as $specialPromotion) {
+            $criterion = $specialPromotion->getCriteria();
+            $valid = $this->promotionMatchesCriteria($criterion, $user);
+            if ($valid) {
+                $qualifiedSpecialPomotions[] = $specialPromotion;
+            }
+        }
+        return $qualifiedSpecialPomotions;
+    }
+
+    /**
+     * @param $criterion
+     * @param $user
+     * @return bool
+     */
+    protected function promotionMatchesCriteria($criterion, User $user)
+    {
+        $role = $user->getRole();
+        $valid = false;
+        if ($criterion == "USER_IS_ADMIN") {
+            if ($role == "ROLE_ADMIN") {
+                $valid = true;
+                return $valid;
+            }
+            return $valid;
+        } else if ($criterion == "USER_REGISTERED_1D") {
+            $registeredOn = $user->getCreatedOn();
+            $now = new \DateTime();
+            $diff = $now->diff($registeredOn);
+            $days = $diff->format('%R%a');
+            $days = ltrim($days, '+');
+            $days = (int)$days;
+            if ($days > 1) {
+                $valid = true;
+                return $valid;
+            }
+            return $valid;
+        } else if ($criterion == "USER_CREDIT_100") {
+            $userCredit = $user->getCash();
+            if ($userCredit > 100) {
+                $valid = true;
+                return $valid;
+            }
+            return $valid;
+        }return $valid;
     }
 
 }

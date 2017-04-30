@@ -56,10 +56,27 @@ a{
 
   &.productCover{
     position: relative;
-    width: 160px;
-    height: 160px;
+    width: 200px;
+    height: 185px;
     display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background: #ececec;
+    border-radius: 2px;
+
+    .product-mini-wrap{
+      text-align:center;
+
+      img{
+        vertical-align: inherit;
+      }
+
+
+    }
+
   }
+
+
   &.miniImage{
     max-height: 160px;
   }
