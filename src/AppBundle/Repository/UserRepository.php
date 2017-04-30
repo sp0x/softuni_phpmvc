@@ -35,7 +35,13 @@ class UserRepository
             ))
             ->setMaxResults(1)
             ->setParameter(':username', $username);
+        /** @var User $user */
         $user = $qb->getQuery()->getOneOrNullResult();
+        if($user!=null){
+            if($user->getIsBanned()){
+                return null;
+            }
+        }
         return $user;
     }
 
@@ -62,10 +68,10 @@ class UserRepository
         $user = $this->loadUserByUsername($username);
         if($user==null){
             return false;
+        }else{
+            return $user->getIsBanned();
         }
-        else if($user->getIsBanned()){
-            return true;
-        }
+        return false;
     }
 
     public function ban(User $user)
