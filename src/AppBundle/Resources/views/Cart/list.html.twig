@@ -7,7 +7,11 @@
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 {% endblock %}
-
+{% block javascripts %}
+    {% javascripts '@AppBundle/Resources/public/js/*'  %}
+    <script  src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
+{% endblock %}
 
 {% block body %}
 <div>
@@ -25,10 +29,20 @@
                 </thead>
                 <tbody>
                     {% for cartItem in cart %}
-                        <tr class="row" ng-init="addCartProduct({ cost: {{ cartItem.product.cost }}, quantity: {{ cartItem.quantity  }} })">
+                        <tr class="row" ng-init="addCartProduct({ id: {{ cartItem.id }}, cost: {{ cartItem.totalPrice }}, quantity: {{ cartItem.quantity  }} })">
                             <td><a href="{{ path("product_show", {"id" : cartItem.product.id })}}">{{ cartItem.product.name }}</a></td>
-                            <td>{{ cartItem.quantity }}</td>
-                            <td>{{ cartItem.totalPrice }} {{ currency }}</td>
+                            <td>
+                                <div class="input-group spinner">
+                                    <input type="text" class="form-control" ng-model="cart.items['{{ cartItem.id }}'].quantity" value="{{ cartItem.quantity }}">
+                                    <div class="input-group-btn-vertical">
+                                        <button ng-click="cart.items[{{ cartItem.id }}].addQuantity()"
+                                                class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                        <button ng-click="cart.items[{{ cartItem.id }}].removeQuantity()"
+                                                class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{[{ cart.items[{{ cartItem.id }}].getTotalCost() }]} {{ currency }}</td>
                             <td>{% if cartItem.product.promotion %}{{ cartItem.product.promotion.discount }} %{% else %}{% endif %}</td>
                             <td>
                                 <ul>
@@ -41,10 +55,10 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <p>Total: <b>{{ total }} {{ currency }}</b></p>
+            <p>Total: <b>{[{getProductsCostTotal()}]} {{ currency }}</b></p>
         </div>
         <div>
-            <a class="btn btn-primary" style="font-size: 25px" href="{{ path("cart_checkout") }}">Checkout</a>
+            <a class="btn btn-primary" style="font-size: 25px" ng-click="checkoutCart('{{ path("cart_checkout") }}')" href="#">Checkout</a>
         </div>
     {% else %}
         <h2 style="text-align:center">You don`t have any items in your cart!</h2>

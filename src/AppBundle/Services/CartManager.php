@@ -139,6 +139,28 @@ class CartManager
         return $cartItems;
     }
 
+    /**
+     * @param CartItem[] $items
+     * @return null
+     */
+    public function applyQuantities($items, $quantityString){
+        if($items==null) return null;
+        if($quantityString==null || strlen($quantityString)==0) return $items;
+        $segments = explode(",", $quantityString);
+        foreach($segments as $segment){
+            $segmentInfo = explode(":", $segment);
+            if(count($segmentInfo)<2) continue;
+            $cartItemId = $segmentInfo[0];
+            $quantity = $segmentInfo[1];
+            foreach($items as $item){
+                if((int)$item->getId()==(int)$cartItemId){
+                    $item->setQuantity($quantity);
+                    break;
+                }
+            }
+        }
+        return $items;
+    }
 
     public function getMyCartWithPromotions(ProductsManager $pm){
         $cart = $this->getMycart();

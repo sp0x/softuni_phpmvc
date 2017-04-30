@@ -30,7 +30,7 @@ class CartController extends Controller
 
         $currency = Intl::getCurrencyBundle()->getCurrencySymbol('EUR');
 
-        return $this->render('AppBundle:User:view_cart.html.twig', array(
+        return $this->render('AppBundle:Cart:list.html.twig', array(
             'cart' => $cart,
             'total' => $total,
             'currency' => $currency
@@ -68,14 +68,19 @@ class CartController extends Controller
     /**
      * @Route("/checkout", name="cart_checkout")
      */
-    public function checkoutAction()
+    public function checkoutAction(Request $request)
     {
         $cm = $this->get('app.cartmanager');
         $pm = $this->get('app.productsmanager');
+        $buff = $request->get('buff');
+
         //Calculate the total with the best promotions
         $cartResult = $cm->getMyCartWithPromotions($pm);
         $cart = @$cartResult['cart'];
         $total = @$cartResult['total'];
+        //Apply the quantities that we recieved
+        $cart = $cm->applyQuantities($cart, $buff);
+
         $success = false;
         /** @var User $user */
         $user = $this->getUser();
@@ -89,7 +94,7 @@ class CartController extends Controller
                 $em->flush();
             }
         }
-        return $this->render('AppBundle:CartController:checkout.html.twig', array(
+        return $this->render('AppBundle:Cart:checkout.html.twig', array(
             'items' => $cart,
             'success' => $success
         ));
