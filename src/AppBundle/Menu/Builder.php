@@ -77,6 +77,7 @@ class Builder implements ContainerAwareInterface
             $routes = $this->container->get('router')->getRouteCollection();
             if($user->isAdmin()){
                 $menu->addChild('Users', array('route' => 'user_list') );
+                $menu->addChild('Sales', array('route' => 'sales_index') );
             }
             if($user->isAdmin() || $user->isEditor()){
                 $menu->addChild('Categories', array('route' => 'category_list') );

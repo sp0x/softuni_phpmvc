@@ -29,14 +29,8 @@
                 <td>{{ promotion.criteria }}</td>
                 <td>{{ promotion.discount }} %</td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('promotion_show', { 'id': promotion.id }) }}">Show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('promotion_edit', { 'id': promotion.id }) }}">Edit</a>
-                        </li>
-                    </ul>
+                    <a href="{{ path('promotion_show', { 'id': promotion.id }) }}">Show</a> |
+                    <a href="{{ path('promotion_edit', { 'id': promotion.id }) }}">Edit</a>
                 </td>
             </tr>
         {% endfor %}

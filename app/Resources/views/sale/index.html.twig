@@ -1,0 +1,48 @@
+{% extends ':shared:layout.html.twig' %}
+{% block title %}xCart: Sales {% endblock %}
+{% block stylesheets %}
+    {% stylesheets '@AppBundle/Resources/public/stylesheets/*' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts '@AppBundle/Resources/public/js/*'  %}
+    <script  src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block body %}
+    <h1>Sales list</h1>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr class="row">
+                <th>Id</th>
+                <th>Product</th>
+                <th>User</th>
+                <th>Quantity</th>
+                <th>Sold on</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sale in sales %}
+                <tr class="row">
+                    <td><a href="{{ path('sales_show', { 'id': sale.id }) }}">{{ sale.id }}</a></td>
+                    <td>{{ sale.product.name }}</td>
+                    <td>{{ sale.user.username }}</td>
+                    <td>{{ sale.quantity }}</td>
+                    <td>{{ sale.createdOn|date('Y-m-d H:i:s') }}</td>
+                    <td>
+                        <a href="{{ path('sales_show', { 'id': sale.id }) }}">Show</a> |
+                        <a href="{{ path('sales_delete', { 'id': sale.id }) }}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends ':shared:layout.html.twig' %}
+
+{% block stylesheets %}
+    {% stylesheets '@AppBundle/Resources/public/stylesheets/*' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts '@AppBundle/Resources/public/js/*'  %}
+    <script  src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block body %}
+    <h1>Sale</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sale.id }}</td>
+            </tr>
+            <tr>
+                <th>Purchaseid</th>
+                <td>{{ sale.purchaseId }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ sale.quantity }}</td>
+            </tr>
+            <tr>
+                <th>Createdon</th>
+                <td>{{ sale.createdOn|date('Y-m-d H:i:s') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sales_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}
