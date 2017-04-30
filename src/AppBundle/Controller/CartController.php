@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Intl\Intl;
 
 /**
  * Class CartController
@@ -15,6 +16,27 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CartController extends Controller
 {
+
+    /**
+     * @Route("/list", name="list_cart")
+     */
+    public function viewCartAction()
+    {
+        $cm = $this->get('app.cartmanager');
+        $pm = $this->get('app.productsmanager');
+        $cartResult = $cm->getMyCartWithPromotions($pm);
+        $cart = @$cartResult['cart'];
+        $total = @$cartResult['total'];
+
+        $currency = Intl::getCurrencyBundle()->getCurrencySymbol('EUR');
+
+        return $this->render('AppBundle:User:view_cart.html.twig', array(
+            'cart' => $cart,
+            'total' => $total,
+            'currency' => $currency
+        ));
+    }
+
     /**
      * @Route("/add", name="cart_add")
      */
@@ -40,7 +62,7 @@ class CartController extends Controller
         if($success){
             $message = "Your item was added";
         }
-        return $this->redirectToRoute('mycart');
+        return $this->redirectToRoute('list_cart');
     }
 
     /**

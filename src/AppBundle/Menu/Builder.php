@@ -52,8 +52,8 @@ class Builder implements ContainerAwareInterface
             $currency = Intl::getCurrencyBundle()->getCurrencySymbol('EUR');
             $user = $this->getUser();
             $menu->addChild($user->getUsername() , array('route' => 'user_current'));
-            $menu->addChild('My Cart' , array('route' => 'mycart'));
-            $menu->addChild("Credit: {$user->getCash()} {$currency}", array('route'=> 'mycart'));
+            $menu->addChild('My Cart' , array('route' => 'list_cart'));
+            $menu->addChild("Credit: {$user->getCash()} {$currency}", array('route'=> 'list_cart'));
                 //$menu[$user->getUsername()]->addChild("Credit: {$user->getCash()}", array('route'=>'mycart'));
             $menu[$user->getUsername()]->addChild('My purchases', array('route' => 'sales_user_sales'));
             $menu[$user->getUsername()]->addChild('Logout', array('route' => 'logout'));

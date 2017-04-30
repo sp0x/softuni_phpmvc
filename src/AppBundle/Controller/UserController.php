@@ -34,25 +34,6 @@ class UserController extends Controller
         ));
     }
 
-    /**
-     * @Route("/cart", name="mycart")
-     */
-    public function viewCartAction()
-    {
-        $cm = $this->get('app.cartmanager');
-        $pm = $this->get('app.productsmanager');
-        $cartResult = $cm->getMyCartWithPromotions($pm);
-        $cart = @$cartResult['cart'];
-        $total = @$cartResult['total'];
-
-        $currency = Intl::getCurrencyBundle()->getCurrencySymbol('EUR');
-
-        return $this->render('AppBundle:User:view_cart.html.twig', array(
-            'cart' => $cart,
-            'total' => $total,
-            'currency' => $currency
-        ));
-    }
 
     /**
      * @Route("/me", name="user_current")
