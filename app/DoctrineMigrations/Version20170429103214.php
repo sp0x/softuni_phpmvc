@@ -30,6 +30,7 @@ class Version20170429103214 extends AbstractMigration
         $this->addSql('ALTER TABLE product_comment ADD user_id INT DEFAULT NULL, DROP author');
         $this->addSql('ALTER TABLE product_comment ADD CONSTRAINT FK_45AD49DCA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('CREATE INDEX IDX_45AD49DCA76ED395 ON product_comment (user_id)');
+        $this->addSql('ALTER TABLE user ADD created_on DATETIME DEFAULT NULL');
     }
 
     /**
@@ -48,5 +49,6 @@ class Version20170429103214 extends AbstractMigration
         $this->addSql('ALTER TABLE product_comment DROP FOREIGN KEY FK_45AD49DCA76ED395');
         $this->addSql('DROP INDEX IDX_45AD49DCA76ED395 ON product_comment');
         $this->addSql('ALTER TABLE product_comment ADD author VARCHAR(255) NOT NULL COLLATE utf8_unicode_ci, DROP user_id');
+        $this->addSql('ALTER TABLE user DROP created_on');
     }
 }

@@ -1,0 +1,21 @@
+version:  '3.7'
+
+services:
+#  adminer:
+#    image: adminer
+#    restart: on-failure
+#    ports:
+#      - "127.0.0.1:8080:8080"
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "127.0.0.1:3306:3306"
+
+#  nginx:
+#    image: nginx:1.15.3-alpine
+#    restart: on-failure
+#    volumes:
+#      - './apps/my-symfony-app/public/:/usr/src/app'

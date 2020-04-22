@@ -42,6 +42,7 @@
         "symfony/expression-language": "^3.2",
         "symfony/filesystem": "^3.2",
         "symfony/monolog-bundle": "^3.0.2",
+        "symfony/orm-pack": "^1.0",
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.3.10",
         "symfony/symfony": "3.2.*",

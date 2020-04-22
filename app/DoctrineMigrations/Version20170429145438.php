@@ -34,7 +34,7 @@ class Version20170429145438 extends AbstractMigration implements ContainerAwareI
         $newAdmin->setPasswordRaw('alongpass');
         $newAdmin->setIsBanned(false);
         $newAdmin->setIsActive(true);
-        $newAdmin->setCreatedOn(new \DateTime());
+        //$newAdmin->setCreatedOn(new \DateTime());
         $newAdmin->setCash(1000);
         $newAdmin->setRole("ROLE_ADMIN");
         $newAdmin->setPassword($crypto->encodePassword($newAdmin, $newAdmin->getPasswordRaw()));
@@ -45,7 +45,7 @@ class Version20170429145438 extends AbstractMigration implements ContainerAwareI
         $newMod->setPasswordRaw('modulus');
         $newMod->setIsBanned(false);
         $newMod->setIsActive(true);
-        $newMod->setCreatedOn(new \DateTime());
+        //$newMod->setCreatedOn(new \DateTime());
         $newMod->setCash(1000);
         $newMod->setRole("ROLE_EDITOR");
         $newMod->setPassword($crypto->encodePassword($newMod, $newMod->getPasswordRaw()));

@@ -23,7 +23,6 @@ class Version20170430032210 extends AbstractMigration
         $this->addSql('DROP INDEX UNIQ_D34A04AD61778466 ON product');
         $this->addSql('ALTER TABLE product DROP availability_id, CHANGE created_on created_on DATETIME NOT NULL');
         $this->addSql('ALTER TABLE sale CHANGE created_on created_on DATETIME NOT NULL');
-        $this->addSql('ALTER TABLE user ADD created_on DATETIME DEFAULT NULL');
     }
 
     /**
@@ -39,6 +38,5 @@ class Version20170430032210 extends AbstractMigration
         $this->addSql('ALTER TABLE product ADD CONSTRAINT FK_D34A04AD61778466 FOREIGN KEY (availability_id) REFERENCES product_availability (id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_D34A04AD61778466 ON product (availability_id)');
         $this->addSql('ALTER TABLE sale CHANGE created_on created_on DATETIME NOT NULL');
-        $this->addSql('ALTER TABLE user DROP created_on');
     }
 }
