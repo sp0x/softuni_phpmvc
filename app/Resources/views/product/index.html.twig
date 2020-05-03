@@ -19,7 +19,7 @@
             </thead>
             <tbody>
             {% for product in products %}
-                <tr class="row">
+                <tr class="row" onclick="window.location='{{ path('product_show', { 'id': product.id }) }}'">
                     <td><a href="{{ path('product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
                     <td>{% if product.availability %}{{ product.availability.quantity }}{% else %}0{% endif %}</td>
                     <td>{{ product.name }}</td>

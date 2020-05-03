@@ -23,8 +23,14 @@ Migrate the DB Structure
 ```shell script
 php bin/console doctrine:migrations:migrate
 ```
+
+### Run the site with
+```shell script
+symfony server:start
+```
  
 Login details for admin are:
 admin
 alongpass
+ 
  

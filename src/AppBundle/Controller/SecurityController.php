@@ -70,6 +70,7 @@ class SecurityController extends Controller
             /** @var User $user */
             $user = $form->getData();
             $crypto = $this->get('security.password_encoder');
+            $user->setIsBanned(false);
             $user->setRole("ROLE_USER");
             $user->setCash($initialCash);
             $user->setCreatedOn(new \DateTime());

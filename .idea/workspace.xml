@@ -1,47 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="d971b486-d0c6-49e1-a43f-c58a72e3992d" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/playitowl.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/playitowl.iml" afterDir="false" />
+    <list default="true" id="d971b486-d0c6-49e1-a43f-c58a72e3992d" name="Default" comment="Update.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DoctrineMigrations/Version20170429103214.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DoctrineMigrations/Version20170429103214.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DoctrineMigrations/Version20170429145438.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DoctrineMigrations/Version20170429145438.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/DoctrineMigrations/Version20170430032210.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/DoctrineMigrations/Version20170430032210.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Resources/views/navbar.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/views/navbar.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/config/services.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/services.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/config/services.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/services.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Menu/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Menu/Builder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/public/js/spinner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/public/js/spinner.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/misc.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/misc.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/public/stylesheets/product.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/Category/products.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/Category/products.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/Default/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/Default/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/Product/category.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/Product/category.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/Security/login.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/Security/login.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/Security/register.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/Security/register.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Resources/views/layout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Resources/views/layout.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Services/CartManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Services/CartManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Services/ProductsManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Services/ProductsManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Services/SalesManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Services/SalesManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Utils/RequestHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Utils/RequestHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Utils/Slugger.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Utils/Slugger.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AppBundle/Utils/VisitorValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Utils/VisitorValidator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_dev.php" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_dev.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/css/bootstrap.css" beforeDir="false" afterPath="$PROJECT_DIR$/web/css/bootstrap.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/css/bootstrap__bootstrap_1.css" beforeDir="false" afterPath="$PROJECT_DIR$/web/css/bootstrap__bootstrap_1.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/css/bootstrap_form_2.css" beforeDir="false" afterPath="$PROJECT_DIR$/web/css/bootstrap_form_2.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/js/angular.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/angular.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/js/bb54fd1.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/bb54fd1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/js/bb54fd1_part_1_spinner_1.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/bb54fd1_part_1_spinner_1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/js/xCartGeneralController.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/js/xCartGeneralController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Resources/views/product/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/app/Resources/views/product/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppBundle/Controller/SecurityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/SecurityController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppBundle/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppBundle/Entity/User.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,12 +95,6 @@
       <path value="$PROJECT_DIR$/vendor/whiteoctober/breadcrumbs-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/orm-pack" />
     </include_path>
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
   </component>
   <component name="ProjectId" id="1auMjv1yuAqUbNQgwiiyumwbFlb" />
   <component name="ProjectViewState">
@@ -613,12 +590,38 @@
       <workItem from="1493997564915" duration="1780000" />
       <workItem from="1587581172270" duration="194000" />
       <workItem from="1587581943848" duration="163000" />
-      <workItem from="1587582218426" duration="5120000" />
+      <workItem from="1587582218426" duration="6282000" />
+      <workItem from="1587622282448" duration="1002000" />
+      <workItem from="1587624111468" duration="330000" />
     </task>
+    <task id="LOCAL-00001" summary="Update.">
+      <created>1587590006920</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1587590006920</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update." />
   </component>
   <component name="WindowStateProjectService">
     <state x="1772" y="728" key="#Docker" timestamp="1587587912388">
@@ -637,6 +640,10 @@
       <screen x="1080" y="548" width="1920" height="1080" />
     </state>
     <state x="1731" y="772" width="616" height="584" key="#docker-compose.yml.mysql:_Compose_Deployment/1080.548.1920.1080/3000.548.1920.1080/0.0.1080.1868@1080.548.1920.1080" timestamp="1587586260753" />
+    <state x="1567" y="612" key="CommitChangelistDialog2" timestamp="1587589898796">
+      <screen x="1080" y="548" width="1920" height="1080" />
+    </state>
+    <state x="1567" y="612" key="CommitChangelistDialog2/1080.548.1920.1080/3000.548.1920.1080/0.0.1080.1868@1080.548.1920.1080" timestamp="1587589898796" />
     <state x="1823" y="806" key="FileChooserDialogImpl" timestamp="1587582079573">
       <screen x="1080" y="548" width="1920" height="1080" />
     </state>
@@ -677,10 +684,10 @@
       <screen x="1080" y="548" width="1920" height="1080" />
     </state>
     <state x="1721" y="891" key="com.intellij.ide.util.TipDialog/1080.548.1920.1080/3000.548.1920.1080/0.0.1080.1868@1080.548.1920.1080" timestamp="1587581182711" />
-    <state x="1717" y="672" width="645" height="783" key="find.popup" timestamp="1587589256800">
+    <state x="1717" y="672" width="645" height="783" key="find.popup" timestamp="1587624202183">
       <screen x="1080" y="548" width="1920" height="1080" />
     </state>
-    <state x="1717" y="672" width="645" height="783" key="find.popup/1080.548.1920.1080/3000.548.1920.1080/0.0.1080.1868@1080.548.1920.1080" timestamp="1587589256800" />
+    <state x="1717" y="672" width="645" height="783" key="find.popup/1080.548.1920.1080/3000.548.1920.1080/0.0.1080.1868@1080.548.1920.1080" timestamp="1587624202183" />
   </component>
   <component name="masterDetails">
     <states>
