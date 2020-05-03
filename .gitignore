@@ -17,3 +17,7 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+logs
+appsrc/var/cache
+appsrc/var/logs
+appsrc/var/sessions
