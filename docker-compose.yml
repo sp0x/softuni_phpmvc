@@ -47,6 +47,8 @@ services:
       - phpfpm
     networks:
       - traefik
+    labels:
+      - traefik.http.routers.phpkursova.rule=Host(`phpkursova.vaskovasilev.eu`)
 #  nginx:
 #    image: nginx:1.15.3-alpine
 #    restart: on-failure
